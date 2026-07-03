@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#46362B">
+<title>Roast Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --robusta:#46362B; --crema:#EDE9E4; --cashew:#D1C8C1; --granite:#A8A8A8;
+  --coral:#E8826E; --coral-deep:#C76450; --honey:#EDCFBA; --sage:#D6EBDE;
+  --peach:#FAD4CF; --border:#D8CFC6; --blue:#5A7AA0;
+  --ink:#46362B; --ink-soft:#7A6A5C; --paper:#FBF9F6;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,'Times New Roman',serif;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(70,54,43,.08), 0 4px 14px rgba(70,54,43,.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:var(--sans); background:var(--crema); color:var(--ink);
+  line-height:1.45; font-size:16px; -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer;color:inherit;}
+input,textarea,select{font-family:inherit;font-size:16px;color:inherit;}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{
+  outline:2px solid var(--blue); outline-offset:2px;
+}
+
+/* ---------- layout ---------- */
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 120px;}
+header.app{
+  background:var(--robusta); color:var(--crema);
+  padding:calc(14px + env(safe-area-inset-top)) 16px 14px;
+  position:sticky; top:0; z-index:50;
+  box-shadow:0 2px 10px rgba(70,54,43,.18);
+}
+header.app .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.brand{font-size:1.5rem;font-weight:700;letter-spacing:-.01em;line-height:1;}
+.brand .j{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.65rem;}
+.saved-pill{
+  font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  background:rgba(255,255,255,.14); padding:5px 10px;border-radius:20px;
+  opacity:0; transition:opacity .25s; white-space:nowrap;
+}
+.saved-pill.show{opacity:1;}
+
+.identity{display:flex;gap:8px;margin-top:12px;max-width:640px;margin-left:auto;margin-right:auto;}
+.identity input{
+  flex:1;min-width:0;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  color:var(--crema);padding:9px 12px;border-radius:9px;
+}
+.identity input::placeholder{color:rgba(237,233,228,.6);}
+
+/* ---------- tabs ---------- */
+.tabs{
+  position:sticky; top:0; z-index:40; background:var(--crema);
+  display:flex; gap:6px; padding:12px 16px 10px; max-width:640px; margin:0 auto;
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+}
+.tab{
+  flex:0 0 auto; min-height:44px; padding:0 16px; border-radius:22px;
+  background:#fff; border:1px solid var(--border); color:var(--ink-soft);
+  font-weight:600; font-size:.9rem; display:flex;align-items:center;
+}
+.tab.active{background:var(--robusta);color:var(--crema);border-color:var(--robusta);}
+
+.privacy{font-size:.78rem;color:var(--ink-soft);text-align:center;margin:4px 0 14px;padding:0 8px;}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--paper); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); margin-bottom:14px; overflow:hidden;
+}
+.card-head{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+.card-head:hover{background:rgba(255,255,255,.5);}
+.card-body{padding:0 16px 18px;}
+.section-title{
+  font-family:var(--serif);font-style:italic;font-size:1.35rem;font-weight:400;
+  margin:26px 0 12px;color:var(--robusta);
+}
+.section-title:first-child{margin-top:6px;}
+
+.day-badge{
+  font-size:.72rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;background:var(--sage);color:#3f6b4e;white-space:nowrap;
+}
+.day-badge.d2{background:var(--peach);color:var(--coral-deep);}
+.roast-label{font-weight:700;font-size:1.05rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+.chev{color:var(--granite);transition:transform .2s;font-size:1.1rem;}
+.card.open .chev{transform:rotate(90deg);}
+.agtron-mini{font-size:.8rem;color:var(--ink-soft);font-weight:600;white-space:nowrap;}
+
+/* ---------- buttons ---------- */
+.btn{
+  min-height:48px;padding:0 20px;border-radius:11px;border:none;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:0 2px 8px rgba(232,130,110,.35);}
+.btn-primary:active{background:var(--coral-deep);}
+.btn-block{width:100%;}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--ink);}
+.btn-ghost:active{background:var(--crema);}
+.btn-danger{background:#fff;border:1px solid var(--coral-deep);color:var(--coral-deep);}
+
+/* ---------- fields ---------- */
+.field{margin-bottom:14px;}
+.field > label{display:block;font-weight:600;font-size:.92rem;margin-bottom:5px;}
+.field .help{font-size:.78rem;color:var(--ink-soft);margin-top:4px;line-height:1.35;}
+.field input,.field textarea,.field select{
+  width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:11px 13px;min-height:46px;
+}
+.field textarea{min-height:74px;resize:vertical;line-height:1.45;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.subhead{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin:16px 0 8px;}
+
+/* ---------- live log ---------- */
+.timer-display{
+  text-align:center;background:var(--robusta);color:var(--crema);border-radius:12px;
+  padding:16px;margin-bottom:14px;
+}
+.timer-display .clock{font-size:2.6rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;line-height:1;}
+.timer-display .clabel{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-top:4px;}
+.milestones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+.ms-btn{
+  min-height:64px;border-radius:12px;border:2px solid var(--border);background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font-weight:700;transition:all .15s;padding:8px;
+}
+.ms-btn .ms-name{font-size:1rem;}
+.ms-btn .ms-val{font-size:.8rem;color:var(--ink-soft);font-weight:600;font-variant-numeric:tabular-nums;}
+.ms-btn.charge{grid-column:1 / -1;}
+.ms-btn.done{background:var(--sage);border-color:#a9d3ba;}
+.ms-btn.done .ms-name{color:#2f5a3e;}
+.ms-btn.armed{border-color:var(--coral);box-shadow:0 0 0 3px rgba(232,130,110,.2);}
+.dtr-box{
+  display:flex;gap:10px;margin-top:12px;
+}
+.stat{flex:1;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center;}
+.stat .v{font-size:1.4rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;}
+.stat .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-top:2px;}
+
+/* ---------- sweetness bar ---------- */
+.sweet-bar{display:flex;gap:4px;margin-top:6px;}
+.sweet-seg{
+  flex:1;min-height:52px;border-radius:8px;border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:700;text-align:center;line-height:1.05;padding:3px 1px;color:#5a4634;
+}
+.sweet-seg .num{font-size:.85rem;}
+.sweet-seg.sel{border-color:var(--robusta);box-shadow:0 2px 6px rgba(70,54,43,.2);transform:translateY(-2px);}
+.sweet-label{text-align:center;font-weight:700;margin-top:8px;min-height:22px;color:var(--robusta);}
+
+/* ---------- predict/actual ---------- */
+.pa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;}
+.pa-col{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;}
+.pa-col h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:6px;}
+.pa-col.pred{border-left:4px solid var(--blue);}
+.pa-col.act{border-left:4px solid var(--coral);}
+.pa-col p{font-size:.9rem;white-space:pre-wrap;word-break:break-word;}
+.pa-col .empty{color:var(--granite);font-style:italic;}
+
+/* ---------- empty state ---------- */
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-soft);}
+.empty-state .em{font-size:2.5rem;margin-bottom:10px;}
+
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(42,27,18,.55);z-index:100;
+  display:flex;align-items:flex-end;justify-content:center;padding:0;
+}
+.modal{
+  background:var(--paper);width:100%;max-width:640px;border-radius:18px 18px 0 0;
+  padding:22px 20px calc(22px + env(safe-area-inset-bottom));
+}
+@media(min-width:641px){.modal-backdrop{align-items:center;}.modal{border-radius:16px;margin:16px;}}
+.modal h3{font-family:var(--serif);font-style:italic;font-size:1.5rem;font-weight:400;margin-bottom:14px;color:var(--robusta);}
+.seg-toggle{display:flex;gap:8px;margin-bottom:14px;}
+.seg-toggle button{flex:1;min-height:52px;border-radius:11px;border:2px solid var(--border);background:#fff;font-weight:700;}
+.seg-toggle button.on{background:var(--robusta);color:var(--crema);border-color:var(--robusta);}
+.modal-actions{display:flex;gap:10px;margin-top:6px;}
+.modal-actions .btn{flex:1;}
+
+.footer-tools{margin-top:8px;}
+.tool-row{display:flex;gap:10px;flex-wrap:wrap;}
+.tool-row .btn{flex:1;min-width:140px;}
+
+/* ---------- print ---------- */
+@media print{
+  header.app,.tabs,.privacy,#fab,.no-print,.footer-tools{display:none!important;}
+  body{background:#fff;font-size:11pt;}
+  .wrap{padding:0;max-width:100%;}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin-bottom:10px;}
+  .card-body{display:block!important;}
+  .chev{display:none;}
+  @page{size:A4;margin:16mm;}
+}
+
+/* ---------- fab ---------- */
+#fab{
+  position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;
+  min-height:56px;padding:0 22px;border-radius:28px;background:var(--coral);color:#fff;
+  border:none;font-weight:700;font-size:1rem;box-shadow:0 4px 16px rgba(199,100,80,.45);
+  display:flex;align-items:center;gap:8px;
+}
+#fab:active{background:var(--coral-deep);}
+
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="inner">
+    <div class="brand">Roast <span class="j">Journal</span></div>
+    <div class="saved-pill" id="savedPill">Saved ✓</div>
+  </div>
+  <div class="identity">
+    <input id="studentName" type="text" placeholder="Your name" autocomplete="name">
+    <input id="studentTeam" type="text" placeholder="Team">
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-tab="roasts">Roasts</button>
+  <button class="tab" data-tab="export">Export &amp; Print</button>
+</nav>
+
+<p class="privacy">🔒 Everything stays on this device — no account, no upload, no data leaves your phone.</p>
+
+<div class="wrap">
+  <section id="tab-roasts">
+    <div id="roastList"></div>
+  </section>
+
+  <section id="tab-export" class="hidden">
+    <div class="card"><div class="card-body" style="padding-top:18px;">
+      <h2 class="section-title" style="margin-top:0;">Export your journal</h2>
+      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:16px;">
+        Save a printable copy of every roast, or a JSON backup you can re-import later.
+      </p>
+      <div class="footer-tools">
+        <div class="tool-row" style="margin-bottom:10px;">
+          <button class="btn btn-primary" id="exportHtml">🖨️ Printable journal</button>
+          <button class="btn btn-ghost" id="exportJson">💾 JSON backup</button>
+        </div>
+        <div class="tool-row">
+          <button class="btn btn-ghost" id="copySummary">📋 Copy summary</button>
+          <button class="btn btn-ghost" id="importJson">📥 Import backup</button>
+        </div>
+      </div>
+      <input type="file" id="importFile" accept="application/json,.json" class="hidden">
+    </div></div>
+
+    <div class="card"><div class="card-body" style="padding-top:18px;">
+      <h2 class="section-title" style="margin-top:0;">Danger zone</h2>
+      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;">Clears every roast and your name from this device. Cannot be undone.</p>
+      <button class="btn btn-danger btn-block" id="resetAll">Reset / clear all</button>
+    </div></div>
+  </section>
+</div>
+
+<button id="fab">+ New Roast</button>
+
+<!-- New roast modal -->
+<div class="modal-backdrop hidden" id="newModal">
+  <div class="modal">
+    <h3>New roast</h3>
+    <div class="field">
+      <label>Which day?</label>
+      <div class="seg-toggle" id="daySeg">
+        <button data-day="1" class="on">Day 1</button>
+        <button data-day="2">Day 2</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="newLabel">Label</label>
+      <input id="newLabel" type="text" placeholder="e.g. Light, Medium, Dark, or free text" autocomplete="off">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="newCancel">Cancel</button>
+      <button class="btn btn-primary" id="newCreate">Create roast</button>
+    </div>
+  </div>
+</div>
+
+<!-- generic confirm modal -->
+<div class="modal-backdrop hidden" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMsg" style="margin-bottom:18px;color:var(--ink-soft);"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirmNo">Cancel</button>
+      <button class="btn btn-danger" id="confirmYes" style="background:var(--coral-deep);color:#fff;border:none;">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ============ constants ============ */
+var STORE_KEY = "roastJournal";
+var SWEET = [
+  {n:1, label:"Grainy",          c:"#EDE9E4"},
+  {n:2, label:"Grainy Candy",    c:"#EFDFCB"},
+  {n:3, label:"Candy Minus",     c:"#F1D5B8"},
+  {n:4, label:"Candy",           c:"#EDCFBA"},
+  {n:5, label:"Candy Plus",      c:"#E9B48F"},
+  {n:6, label:"Candy Chocolate", c:"#B98A63"},
+  {n:7, label:"Chocolate",       c:"#8A6247"}
+];
+var MILESTONES = [
+  {key:"charge", name:"Charge",      cls:"charge"},
+  {key:"TP",     name:"TP",          cls:""},
+  {key:"DE",     name:"DE",          cls:""},
+  {key:"FC",     name:"First Crack", cls:""},
+  {key:"drop",   name:"Drop",        cls:""}
+];
+
+/* ============ state ============ */
+var state = loadState();
+var openRoastId = null;
+
+/* ============ persistence ============ */
+function freshState(){ return { student:{name:"",team:""}, roasts:[] }; }
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return freshState();
+    var d = JSON.parse(raw);
+    if(!d || typeof d !== "object") return freshState();
+    if(!d.student) d.student = {name:"",team:""};
+    if(!Array.isArray(d.roasts)) d.roasts = [];
+    return d;
+  }catch(e){
+    console.warn("Corrupt journal data, starting fresh.", e);
+    return freshState();
+  }
+}
+
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      flashSaved();
+    }catch(e){
+      console.error("Could not save.", e);
+    }
+  }, 250);
+}
+function flashSaved(){
+  var p = document.getElementById("savedPill");
+  p.classList.add("show");
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(function(){ p.classList.remove("show"); }, 1100);
+}
+
+/* ============ helpers ============ */
+function uuid(){
+  if(window.crypto && crypto.randomUUID){ try{ return crypto.randomUUID(); }catch(e){} }
+  return "r-" + Date.now().toString(36) + "-" + Math.floor(Math.random()*1e6).toString(36);
+}
+function el(tag, attrs, kids){
+  var e = document.createElement(tag);
+  if(attrs) for(var k in attrs){
+    if(k === "class") e.className = attrs[k];
+    else if(k === "html") e.innerHTML = attrs[k];
+    else if(k === "text") e.textContent = attrs[k];
+    else if(k.slice(0,2)==="on") e.addEventListener(k.slice(2).toLowerCase(), attrs[k]);
+    else if(attrs[k] != null) e.setAttribute(k, attrs[k]);
+  }
+  if(kids) (Array.isArray(kids)?kids:[kids]).forEach(function(c){
+    if(c==null) return;
+    e.appendChild(typeof c==="string" ? document.createTextNode(c) : c);
+  });
+  return e;
+}
+function fmtClock(ms){
+  if(ms==null || ms<0) ms=0;
+  var s = Math.floor(ms/1000);
+  var m = Math.floor(s/60);
+  s = s%60;
+  return m + ":" + (s<10?"0":"") + s;
+}
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"]/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];
+  });
+}
+function getRoast(id){ return state.roasts.filter(function(r){return r.id===id;})[0]; }
+
+function newRoast(day, label){
+  return {
+    id: uuid(),
+    day: day,
+    label: label || (day===2 ? "Day 2 roast" : "Untitled roast"),
+    plan:{ chargeTemp:null, phaseA_target:null, phaseB_target:null, phaseC_target:null,
+           totalTime_target:null, endTemp:null, agtronTarget:null },
+    log:{ chargeTemp:null,
+          TP:{time:null,temp:null}, DE:{time:null,temp:null},
+          FC:{time:null,temp:null}, drop:{time:null,temp:null},
+          energySettings:"", airSettings:"",
+          totalTime_actual:null, agtronActual:null,
+          chargeStamp:null },
+    prediction:"",
+    cupping:{ aroma:"",acidity:"",sweetness:"",body:"",flavor:"",sweetnessStage:null,notes:"" },
+    createdAt: new Date().toISOString()
+  };
+}
+
+/* debounced binding for text/number inputs */
+function bind(input, obj, key, isNum){
+  input.value = obj[key]==null ? "" : obj[key];
+  input.addEventListener("input", function(){
+    var v = input.value;
+    obj[key] = isNum ? (v===""?null:parseFloat(v)) : v;
+    save();
+  });
+}
+
+/* ============ tabs ============ */
+document.getElementById("tabs").addEventListener("click", function(e){
+  var t = e.target.closest(".tab"); if(!t) return;
+  document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+  t.classList.add("active");
+  var name = t.dataset.tab;
+  document.getElementById("tab-roasts").classList.toggle("hidden", name!=="roasts");
+  document.getElementById("tab-export").classList.toggle("hidden", name!=="export");
+});
+
+/* ============ identity ============ */
+(function(){
+  var n = document.getElementById("studentName");
+  var tm = document.getElementById("studentTeam");
+  n.value = state.student.name || "";
+  tm.value = state.student.team || "";
+  n.addEventListener("input", function(){ state.student.name = n.value; save(); });
+  tm.addEventListener("input", function(){ state.student.team = tm.value; save(); });
+})();
+
+/* ============ render roast list ============ */
+function renderList(){
+  var host = document.getElementById("roastList");
+  host.innerHTML = "";
+  if(state.roasts.length === 0){
+    host.appendChild(el("div",{class:"empty-state"},[
+      el("div",{class:"em",text:"☕"}),
+      el("p",{html:"<strong>No roasts yet.</strong>"}),
+      el("p",{text:"Tap “+ New Roast” to plan your first one."})
+    ]));
+    return;
+  }
+  var sorted = state.roasts.slice().sort(function(a,b){
+    return (b.createdAt||"").localeCompare(a.createdAt||"");
+  });
+  sorted.forEach(function(r){ host.appendChild(roastCard(r)); });
+}
+
+function roastCard(r){
+  var open = r.id === openRoastId;
+  var card = el("div",{class:"card"+(open?" open":"")});
+
+  var agtron = "";
+  if(r.plan.agtronTarget!=null || r.log.agtronActual!=null){
+    agtron = "Agtron " + (r.plan.agtronTarget==null?"–":r.plan.agtronTarget) +
+             " → " + (r.log.agtronActual==null?"–":r.log.agtronActual);
+  }
+
+  var head = el("div",{class:"card-head", onclick:function(){
+    openRoastId = open ? null : r.id;
+    renderList();
+  }},[
+    el("span",{class:"day-badge"+(r.day===2?" d2":""), text:"Day "+r.day}),
+    el("span",{class:"roast-label", text:r.label || "Untitled"}),
+    agtron ? el("span",{class:"agtron-mini", text:agtron}) : null,
+    el("span",{class:"chev", html:"&#9654;"})
+  ]);
+  card.appendChild(head);
+
+  if(open){
+    var body = el("div",{class:"card-body"});
+    body.appendChild(roastBody(r));
+    card.appendChild(body);
+  }
+  return card;
+}
+
+/* ============ roast body ============ */
+function roastBody(r){
+  var frag = document.createDocumentFragment();
+
+  /* --- label editor --- */
+  var fLabel = el("div",{class:"field"});
+  fLabel.appendChild(el("label",{text:"Label"}));
+  var labelInput = el("input",{type:"text"});
+  bind(labelInput, r, "label");
+  labelInput.addEventListener("input", function(){ /* update header live */ });
+  fLabel.appendChild(labelInput);
+  frag.appendChild(fLabel);
+
+  /* --- Prediction (day 2 only, at top) --- */
+  if(r.day === 2){
+    frag.appendChild(el("h3",{class:"section-title",text:"Predict"}));
+    var pf = el("div",{class:"field"});
+    pf.appendChild(el("label",{text:"Before you roast — what will it taste like?"}));
+    var pt = el("textarea",{placeholder:"Your prediction…"});
+    bind(pt, r, "prediction");
+    pf.appendChild(pt);
+    pf.appendChild(el("div",{class:"help",text:"Lock in your guess now, then compare it to the cupping below."}));
+    frag.appendChild(pf);
+  }
+
+  /* ---------- PLAN ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Roast Plan"}));
+
+  frag.appendChild(planField("Charge Temp", r.plan, "chargeTemp", true, "°C",
+    "Sets your starting aggression — how hard the roast begins."));
+
+  frag.appendChild(el("div",{class:"subhead",text:"Phase & total time targets"}));
+  var phaseGrid = el("div",{class:"grid3"});
+  phaseGrid.appendChild(miniField("Phase A", r.plan, "phaseA_target", "sage"));
+  phaseGrid.appendChild(miniField("Phase B", r.plan, "phaseB_target", "honey"));
+  phaseGrid.appendChild(miniField("Phase C", r.plan, "phaseC_target", "peach"));
+  frag.appendChild(phaseGrid);
+  var totF = el("div",{class:"field",style:"margin-top:10px;"});
+  totF.appendChild(el("label",{text:"Total time target (mm:ss or min)"}));
+  var totIn = el("input",{type:"text",placeholder:"e.g. 9:30"});
+  bind(totIn, r.plan, "totalTime_target");
+  totF.appendChild(totIn);
+  totF.appendChild(el("div",{class:"help",text:"Your planned route to the target — the sum of the three phases."}));
+  frag.appendChild(totF);
+
+  frag.appendChild(planField("End Temperature", r.plan, "endTemp", true, "°C",
+    "Drop temperature — tied directly to final color."));
+  frag.appendChild(planField("Agtron Target", r.plan, "agtronTarget", true, "",
+    "The number you roast toward. The class fills in the real target bands."));
+
+  /* ---------- LIVE LOG ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Live Roast Log"}));
+  frag.appendChild(liveLog(r));
+
+  var enF = el("div",{class:"field",style:"margin-top:14px;"});
+  enF.appendChild(el("label",{text:"Energy settings"}));
+  var enIn = el("textarea",{placeholder:"e.g. Gas 60% → 40% after TP…"});
+  bind(enIn, r.log, "energySettings");
+  enF.appendChild(enIn);
+  frag.appendChild(enF);
+
+  var airF = el("div",{class:"field"});
+  airF.appendChild(el("label",{text:"Air settings"}));
+  var airIn = el("textarea",{placeholder:"e.g. Fan low to TP, open through FC…"});
+  bind(airIn, r.log, "airSettings");
+  airF.appendChild(airIn);
+  frag.appendChild(airF);
+
+  var agF = el("div",{class:"field"});
+  agF.appendChild(el("label",{text:"Agtron — actual"}));
+  var agIn = el("input",{type:"number",inputmode:"decimal",placeholder:"measured"});
+  bind(agIn, r.log, "agtronActual", true);
+  agF.appendChild(agIn);
+  frag.appendChild(agF);
+
+  /* ---------- CUPPING ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Cupping Notes"}));
+  frag.appendChild(cupping(r));
+
+  /* ---------- PREDICT vs ACTUAL (day 2) ---------- */
+  if(r.day === 2){
+    frag.appendChild(el("h3",{class:"section-title",text:"Predict → Actual"}));
+    frag.appendChild(predictActual(r));
+  }
+
+  /* ---------- delete ---------- */
+  var delWrap = el("div",{style:"margin-top:22px;"});
+  delWrap.appendChild(el("button",{class:"btn btn-danger btn-block", onclick:function(){
+    confirmDialog("Delete this roast?", "“"+(r.label||"Untitled")+"” will be removed from your journal.", function(){
+      state.roasts = state.roasts.filter(function(x){return x.id!==r.id;});
+      if(openRoastId===r.id) openRoastId=null;
+      save(); renderList();
+    });
+  }}, "Delete roast"));
+  frag.appendChild(delWrap);
+
+  return frag;
+}
+
+function planField(label, obj, key, isNum, unit, help){
+  var f = el("div",{class:"field"});
+  f.appendChild(el("label",{text:label + (unit?" ("+unit+")":"")}));
+  var i = el("input",{type:isNum?"number":"text",inputmode:isNum?"decimal":"text"});
+  bind(i, obj, key, isNum);
+  f.appendChild(i);
+  if(help) f.appendChild(el("div",{class:"help",text:help}));
+  return f;
+}
+function miniField(label, obj, key, tone){
+  var f = el("div",{class:"field",style:"margin:0;"});
+  var lab = el("label",{text:label,style:"font-size:.8rem;"});
+  f.appendChild(lab);
+  var i = el("input",{type:"text",placeholder:"mm:ss",style:"padding:9px;min-height:44px;text-align:center;background:var(--"+tone+");"});
+  bind(i, obj, key);
+  f.appendChild(i);
+  return f;
+}
+
+/* ============ live log widget ============ */
+function liveLog(r){
+  var wrap = el("div");
+
+  /* timer display */
+  var disp = el("div",{class:"timer-display"});
+  var clock = el("div",{class:"clock",text:"0:00"});
+  disp.appendChild(clock);
+  disp.appendChild(el("div",{class:"clabel",text: r.log.chargeStamp ? "Elapsed since charge" : "Press Charge to start"}));
+  wrap.appendChild(disp);
+
+  var grid = el("div",{class:"milestones"});
+  MILESTONES.forEach(function(m){
+    var btn = el("button",{class:"ms-btn "+m.cls});
+    var recorded = m.key==="charge" ? (r.log.chargeStamp!=null || r.log.chargeTemp!=null)
+                                    : (r.log[m.key] && r.log[m.key].time!=null);
+    if(recorded) btn.classList.add("done");
+    btn.appendChild(el("span",{class:"ms-name",text:m.name}));
+    var val = el("span",{class:"ms-val"});
+    if(m.key==="charge"){
+      val.textContent = r.log.chargeTemp!=null ? (r.log.chargeTemp+"°") : (r.log.chargeStamp?"started":"tap to start");
+    }else{
+      var mm = r.log[m.key];
+      val.textContent = (mm&&mm.time!=null) ? (fmtClock(mm.time*1000) + (mm.temp!=null?"  ·  "+mm.temp+"°":"")) : "—";
+    }
+    btn.appendChild(val);
+    btn.addEventListener("click", function(){ stampMilestone(r, m.key); });
+    grid.appendChild(btn);
+  });
+  wrap.appendChild(grid);
+
+  /* stats */
+  var stats = el("div",{class:"dtr-box"});
+  var totalStat = el("div",{class:"stat"});
+  var totV = el("div",{class:"v",text:"—"});
+  totalStat.appendChild(totV);
+  totalStat.appendChild(el("div",{class:"k",text:"Total time"}));
+  var dtrStat = el("div",{class:"stat"});
+  var dtrV = el("div",{class:"v",text:"—"});
+  dtrStat.appendChild(dtrV);
+  dtrStat.appendChild(el("div",{class:"k",text:"DTR (dev ratio)"}));
+  stats.appendChild(totalStat);
+  stats.appendChild(dtrStat);
+  wrap.appendChild(stats);
+
+  function refreshStats(){
+    var drop = r.log.drop && r.log.drop.time;
+    var fc = r.log.FC && r.log.FC.time;
+    if(drop!=null){
+      totV.textContent = fmtClock(drop*1000);
+      r.log.totalTime_actual = drop;
+    }else{
+      totV.textContent = r.log.chargeStamp ? "running" : "—";
+    }
+    if(fc!=null && drop!=null && drop>0){
+      var dtr = ((drop - fc) / drop) * 100;
+      dtrV.textContent = dtr.toFixed(1) + "%";
+    }else{
+      dtrV.textContent = "—";
+    }
+  }
+  refreshStats();
+
+  /* live clock loop (recompute from Date.now, resilient to backgrounding) */
+  function tick(){
+    if(r.id !== openRoastId){ return; } // stop when card closed / re-rendered
+    if(r.log.chargeStamp!=null && !allStamped(r)){
+      clock.textContent = fmtClock(Date.now() - r.log.chargeStamp);
+    }
+    liveLog._raf = requestAnimationFrame(function(){ setTimeout(tick, 250); });
+  }
+  if(r.log.chargeStamp!=null){
+    clock.textContent = allStamped(r) && r.log.drop.time!=null
+      ? fmtClock(r.log.drop.time*1000)
+      : fmtClock(Date.now() - r.log.chargeStamp);
+    tick();
+  }
+
+  wrap._refreshStats = refreshStats;
+  return wrap;
+}
+
+function allStamped(r){
+  return r.log.TP.time!=null && r.log.DE.time!=null && r.log.FC.time!=null && r.log.drop.time!=null;
+}
+
+function stampMilestone(r, key){
+  if(key === "charge"){
+    if(r.log.chargeStamp == null){
+      r.log.chargeStamp = Date.now();
+    }
+    promptTemp(r, "Charge temp", function(t){
+      r.log.chargeTemp = t;
+      save(); renderCurrentRoast();
+    }, r.log.chargeTemp);
+    save(); renderCurrentRoast();
+    return;
+  }
+  if(r.log.chargeStamp == null){
+    // allow logging but base elapsed at 0
+    r.log.chargeStamp = Date.now();
+  }
+  var slot = r.log[key];
+  if(slot.time == null){
+    slot.time = Math.max(0, Math.round((Date.now() - r.log.chargeStamp)/1000));
+  }
+  var names = {TP:"Turning Point (TP)", DE:"Dry End (DE)", FC:"First Crack", drop:"Drop"};
+  promptTemp(r, names[key]+" temp  ·  "+fmtClock(slot.time*1000), function(t){
+    slot.temp = t;
+    save(); renderCurrentRoast();
+  }, slot.temp);
+  save(); renderCurrentRoast();
+}
+
+/* small inline temp prompt via confirm modal reused */
+function promptTemp(r, title, cb, current){
+  openTempModal(title, current, cb);
+}
+
+/* ============ cupping ============ */
+function cupping(r){
+  var wrap = el("div");
+  [["Aroma","aroma"],["Acidity","acidity"],["Sweetness","sweetness"],["Body","body"],["Flavor","flavor"]].forEach(function(p){
+    var f = el("div",{class:"field"});
+    f.appendChild(el("label",{text:p[0]}));
+    var i = el("input",{type:"text"});
+    bind(i, r.cupping, p[1]);
+    f.appendChild(i);
+    wrap.appendChild(f);
+  });
+
+  wrap.appendChild(el("div",{class:"subhead",text:"Sweetness stage (Jake Hu scale)"}));
+  var bar = el("div",{class:"sweet-bar"});
+  var labelOut = el("div",{class:"sweet-label"});
+  function paint(){
+    Array.prototype.forEach.call(bar.children, function(seg){
+      seg.classList.toggle("sel", parseInt(seg.dataset.n,10) === r.cupping.sweetnessStage);
+    });
+    var sel = SWEET.filter(function(s){return s.n===r.cupping.sweetnessStage;})[0];
+    labelOut.textContent = sel ? (sel.n + " · " + sel.label) : "Tap a stage";
+  }
+  SWEET.forEach(function(s){
+    var seg = el("button",{class:"sweet-seg","data-n":s.n,style:"background:"+s.c+";"+(s.n>=6?"color:#fff;":"")});
+    seg.appendChild(el("span",{class:"num",text:s.n}));
+    seg.appendChild(el("span",{text:s.label}));
+    seg.addEventListener("click", function(){
+      r.cupping.sweetnessStage = (r.cupping.sweetnessStage===s.n) ? null : s.n;
+      paint(); save();
+    });
+    bar.appendChild(seg);
+  });
+  wrap.appendChild(bar);
+  wrap.appendChild(labelOut);
+  paint();
+
+  var nf = el("div",{class:"field",style:"margin-top:14px;"});
+  nf.appendChild(el("label",{text:"Notes"}));
+  var nt = el("textarea",{placeholder:"Anything else you noticed…"});
+  bind(nt, r.cupping, "notes");
+  nf.appendChild(nt);
+  wrap.appendChild(nf);
+
+  return wrap;
+}
+
+/* ============ predict vs actual ============ */
+function predictActual(r){
+  var c = r.cupping;
+  var actualBits = [];
+  [["Aroma",c.aroma],["Acidity",c.acidity],["Sweetness",c.sweetness],["Body",c.body],["Flavor",c.flavor]].forEach(function(p){
+    if(p[1]) actualBits.push(p[0]+": "+p[1]);
+  });
+  var sel = SWEET.filter(function(s){return s.n===c.sweetnessStage;})[0];
+  if(sel) actualBits.push("Sweetness stage: "+sel.n+" "+sel.label);
+  if(c.notes) actualBits.push(c.notes);
+
+  var grid = el("div",{class:"pa-grid"});
+  var pred = el("div",{class:"pa-col pred"});
+  pred.appendChild(el("h4",{text:"You predicted"}));
+  pred.appendChild(r.prediction
+    ? el("p",{text:r.prediction})
+    : el("p",{class:"empty",text:"No prediction yet."}));
+  var act = el("div",{class:"pa-col act"});
+  act.appendChild(el("h4",{text:"You actually tasted"}));
+  act.appendChild(actualBits.length
+    ? el("p",{text:actualBits.join("\n")})
+    : el("p",{class:"empty",text:"Fill in the cupping notes above."}));
+  grid.appendChild(pred);
+  grid.appendChild(act);
+
+  var reflect = el("p",{style:"font-size:.82rem;color:var(--ink-soft);margin-top:10px;text-align:center;",
+    text:"No score — just notice the gap and what you'd change next time."});
+
+  var w = el("div"); w.appendChild(grid); w.appendChild(reflect);
+  return w;
+}
+
+function renderCurrentRoast(){ renderList(); }
+
+/* ============ temp modal ============ */
+var _tempCb = null;
+function openTempModal(title, current, cb){
+  _tempCb = cb;
+  var m = document.getElementById("confirmModal");
+  document.getElementById("confirmTitle").textContent = title;
+  var msg = document.getElementById("confirmMsg");
+  msg.innerHTML = "";
+  var inp = el("input",{id:"tempInput",type:"number",inputmode:"decimal",placeholder:"Temperature (optional)",
+    style:"width:100%;padding:12px;min-height:48px;border:1px solid var(--border);border-radius:10px;font-size:16px;"});
+  if(current!=null) inp.value = current;
+  msg.appendChild(inp);
+  var yes = document.getElementById("confirmYes");
+  yes.textContent = "Save";
+  yes.style.background = "var(--coral)";
+  document.getElementById("confirmNo").textContent = "Skip";
+  m.classList.remove("hidden");
+  setTimeout(function(){ inp.focus(); },50);
+
+  m._mode = "temp";
+}
+
+/* ============ generic confirm ============ */
+var _confirmCb = null;
+function confirmDialog(title, msg, cb){
+  _confirmCb = cb;
+  var m = document.getElementById("confirmModal");
+  document.getElementById("confirmTitle").textContent = title;
+  document.getElementById("confirmMsg").textContent = msg;
+  var yes = document.getElementById("confirmYes");
+  yes.textContent = "Confirm"; yes.style.background = "var(--coral-deep)";
+  document.getElementById("confirmNo").textContent = "Cancel";
+  m._mode = "confirm";
+  m.classList.remove("hidden");
+}
+
+document.getElementById("confirmYes").addEventListener("click", function(){
+  var m = document.getElementById("confirmModal");
+  if(m._mode === "temp"){
+    var v = document.getElementById("tempInput").value;
+    var t = v==="" ? null : parseFloat(v);
+    m.classList.add("hidden");
+    if(_tempCb) _tempCb(t); _tempCb=null;
+  }else{
+    m.classList.add("hidden");
+    if(_confirmCb) _confirmCb(); _confirmCb=null;
+  }
+});
+document.getElementById("confirmNo").addEventListener("click", function(){
+  var m = document.getElementById("confirmModal");
+  if(m._mode==="temp"){ // skip = save null
+    m.classList.add("hidden");
+    if(_tempCb) _tempCb(null); _tempCb=null;
+  }else{
+    m.classList.add("hidden"); _confirmCb=null;
+  }
+});
+
+/* ============ new roast modal ============ */
+var newDay = 1;
+document.getElementById("fab").addEventListener("click", openNew);
+function openNew(){
+  newDay = 1;
+  document.querySelectorAll("#daySeg button").forEach(function(b){ b.classList.toggle("on", b.dataset.day==="1"); });
+  document.getElementById("newLabel").value = "";
+  document.getElementById("newModal").classList.remove("hidden");
+  setTimeout(function(){ document.getElementById("newLabel").focus(); },50);
+}
+document.getElementById("daySeg").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if(!b) return;
+  newDay = parseInt(b.dataset.day,10);
+  document.querySelectorAll("#daySeg button").forEach(function(x){ x.classList.toggle("on", x===b); });
+});
+document.getElementById("newCancel").addEventListener("click", function(){
+  document.getElementById("newModal").classList.add("hidden");
+});
+document.getElementById("newCreate").addEventListener("click", function(){
+  var label = document.getElementById("newLabel").value.trim();
+  var r = newRoast(newDay, label);
+  state.roasts.push(r);
+  openRoastId = r.id;
+  save();
+  document.getElementById("newModal").classList.add("hidden");
+  document.querySelector('.tab[data-tab="roasts"]').click();
+  renderList();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* close modals on backdrop tap */
+[["newModal"],["confirmModal"]].forEach(function(pair){
+  var m = document.getElementById(pair[0]);
+  m.addEventListener("click", function(e){ if(e.target===m){ m.classList.add("hidden"); } });
+});
+
+/* ============ export ============ */
+function summaryText(){
+  var s = state.student;
+  var lines = ["ROAST JOURNAL","Student: "+(s.name||"—")+"   Team: "+(s.team||"—"),""];
+  state.roasts.slice().sort(function(a,b){return (a.createdAt||"").localeCompare(b.createdAt||"");}).forEach(function(r,i){
+    lines.push("── Roast "+(i+1)+"  ·  Day "+r.day+"  ·  "+(r.label||"Untitled")+" ──");
+    lines.push("Plan: charge "+n(r.plan.chargeTemp)+"°  end "+n(r.plan.endTemp)+"°  total "+n(r.plan.totalTime_target)+"  Agtron "+n(r.plan.agtronTarget));
+    lines.push("      phases A "+n(r.plan.phaseA_target)+" / B "+n(r.plan.phaseB_target)+" / C "+n(r.plan.phaseC_target));
+    var log = r.log;
+    lines.push("Log:  charge "+n(log.chargeTemp)+"°  TP "+ms(log.TP)+"  DE "+ms(log.DE)+"  FC "+ms(log.FC)+"  Drop "+ms(log.drop));
+    var dtr = "";
+    if(log.FC.time!=null && log.drop.time!=null && log.drop.time>0)
+      dtr = ((log.drop.time-log.FC.time)/log.drop.time*100).toFixed(1)+"%";
+    lines.push("      total "+(log.drop.time!=null?fmtClock(log.drop.time*1000):"—")+"  DTR "+(dtr||"—")+"  Agtron actual "+n(log.agtronActual));
+    if(log.energySettings) lines.push("      energy: "+log.energySettings);
+    if(log.airSettings) lines.push("      air: "+log.airSettings);
+    if(r.day===2 && r.prediction) lines.push("Predicted: "+r.prediction);
+    var c=r.cupping;
+    var cup=[];
+    ["aroma","acidity","sweetness","body","flavor"].forEach(function(k){ if(c[k]) cup.push(k+" "+c[k]); });
+    if(c.sweetnessStage) cup.push("stage "+c.sweetnessStage+" "+(SWEET[c.sweetnessStage-1]||{}).label);
+    if(cup.length) lines.push("Cupping: "+cup.join(", "));
+    if(c.notes) lines.push("      notes: "+c.notes);
+    lines.push("");
+  });
+  return lines.join("\n");
+  function n(v){ return v==null||v===""?"—":v; }
+  function ms(m){ return m&&m.time!=null ? fmtClock(m.time*1000)+(m.temp!=null?"@"+m.temp+"°":"") : "—"; }
+}
+
+function exportHtmlDoc(){
+  var s = state.student;
+  var css = "body{font-family:'DM Sans',Arial,sans-serif;color:#46362B;max-width:800px;margin:0 auto;padding:28px;}"+
+    "h1{font-family:Georgia,serif;font-style:italic;color:#46362B;}"+
+    ".r{border:1px solid #D8CFC6;border-radius:10px;padding:16px 18px;margin:14px 0;page-break-inside:avoid;}"+
+    ".badge{display:inline-block;background:#D6EBDE;color:#3f6b4e;border-radius:12px;padding:2px 10px;font-size:12px;font-weight:700;}"+
+    ".badge.d2{background:#FAD4CF;color:#C76450;}"+
+    "table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px;}"+
+    "td,th{border:1px solid #E5DDD4;padding:5px 8px;text-align:left;}"+
+    "th{background:#EDE9E4;}"+
+    "h3{margin:8px 0 4px;font-size:15px;}"+
+    ".pa{display:flex;gap:12px;margin-top:8px;}.pa>div{flex:1;border:1px solid #D8CFC6;border-radius:8px;padding:10px;}"+
+    "@page{size:A4;margin:16mm;}";
+  var body = "";
+  state.roasts.slice().sort(function(a,b){return (a.createdAt||"").localeCompare(b.createdAt||"");}).forEach(function(r){
+    var log=r.log,c=r.cupping;
+    var dtr="—";
+    if(log.FC.time!=null&&log.drop.time!=null&&log.drop.time>0) dtr=((log.drop.time-log.FC.time)/log.drop.time*100).toFixed(1)+"%";
+    function ms(m){return m&&m.time!=null?fmtClock(m.time*1000)+(m.temp!=null?" @ "+m.temp+"°":""):"—";}
+    function n(v){return v==null||v===""?"—":esc(v);}
+    body += '<div class="r"><span class="badge'+(r.day===2?' d2':'')+'">Day '+r.day+'</span> <strong style="font-size:18px;">'+esc(r.label||"Untitled")+'</strong>';
+    body += '<h3>Plan</h3><table><tr><th>Charge</th><th>Phase A</th><th>Phase B</th><th>Phase C</th><th>Total</th><th>End</th><th>Agtron</th></tr>'+
+      '<tr><td>'+n(r.plan.chargeTemp)+'</td><td>'+n(r.plan.phaseA_target)+'</td><td>'+n(r.plan.phaseB_target)+'</td><td>'+n(r.plan.phaseC_target)+'</td><td>'+n(r.plan.totalTime_target)+'</td><td>'+n(r.plan.endTemp)+'</td><td>'+n(r.plan.agtronTarget)+'</td></tr></table>';
+    body += '<h3>Log</h3><table><tr><th>Charge</th><th>TP</th><th>DE</th><th>FC</th><th>Drop</th><th>DTR</th><th>Agtron</th></tr>'+
+      '<tr><td>'+(log.chargeTemp!=null?log.chargeTemp+"°":"—")+'</td><td>'+ms(log.TP)+'</td><td>'+ms(log.DE)+'</td><td>'+ms(log.FC)+'</td><td>'+ms(log.drop)+'</td><td>'+dtr+'</td><td>'+n(log.agtronActual)+'</td></tr></table>';
+    if(log.energySettings||log.airSettings)
+      body += '<p style="font-size:13px;margin-top:6px;">'+(log.energySettings?'<strong>Energy:</strong> '+esc(log.energySettings)+'<br>':'')+(log.airSettings?'<strong>Air:</strong> '+esc(log.airSettings):'')+'</p>';
+    var cup=[];["aroma","acidity","sweetness","body","flavor"].forEach(function(k){if(c[k])cup.push('<strong>'+k+':</strong> '+esc(c[k]));});
+    if(c.sweetnessStage)cup.push('<strong>stage:</strong> '+c.sweetnessStage+' '+(SWEET[c.sweetnessStage-1]||{}).label);
+    if(cup.length||c.notes) body += '<h3>Cupping</h3><p style="font-size:14px;">'+cup.join(" &nbsp;·&nbsp; ")+(c.notes?'<br>'+esc(c.notes):'')+'</p>';
+    if(r.day===2) body += '<div class="pa"><div><strong>Predicted</strong><br>'+(r.prediction?esc(r.prediction):'<em>—</em>')+'</div><div><strong>Actual</strong><br>'+(cup.length?cup.join(", "):'<em>—</em>')+'</div></div>';
+    body += '</div>';
+  });
+  var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Roast Journal — '+esc(s.name||"")+'</title><style>'+css+'</style></head><body>'+
+    '<h1>Roast Journal</h1><p><strong>'+esc(s.name||"—")+'</strong> · Team '+esc(s.team||"—")+' · '+state.roasts.length+' roast(s)</p>'+
+    body+'</body></html>';
+  download("roast-journal-"+(s.name||"student").replace(/\s+/g,"-").toLowerCase()+".html", html, "text/html");
+}
+
+function download(name, content, type){
+  var blob = new Blob([content], {type:type||"text/plain"});
+  var url = URL.createObjectURL(blob);
+  var a = el("a",{href:url,download:name});
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+}
+
+document.getElementById("exportHtml").addEventListener("click", exportHtmlDoc);
+document.getElementById("exportJson").addEventListener("click", function(){
+  download("roast-journal-backup.json", JSON.stringify(state,null,2), "application/json");
+});
+document.getElementById("copySummary").addEventListener("click", function(){
+  var txt = summaryText();
+  var btn = this;
+  function ok(){ btn.textContent="✓ Copied"; setTimeout(function(){btn.textContent="📋 Copy summary";},1500); }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok, function(){ legacyCopy(txt); ok(); });
+  }else{ legacyCopy(txt); ok(); }
+});
+function legacyCopy(txt){
+  var ta = el("textarea",{style:"position:fixed;left:-9999px;"}); ta.value=txt;
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+}
+document.getElementById("importJson").addEventListener("click", function(){
+  document.getElementById("importFile").click();
+});
+document.getElementById("importFile").addEventListener("change", function(e){
+  var file = e.target.files[0]; if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    try{
+      var d = JSON.parse(reader.result);
+      if(!d.roasts) throw new Error("Not a journal file");
+      confirmDialog("Import backup?", "This replaces everything currently on this device.", function(){
+        state = { student:d.student||{name:"",team:""}, roasts:Array.isArray(d.roasts)?d.roasts:[] };
+        save();
+        document.getElementById("studentName").value = state.student.name||"";
+        document.getElementById("studentTeam").value = state.student.team||"";
+        openRoastId=null; renderList();
+        document.querySelector('.tab[data-tab="roasts"]').click();
+      });
+    }catch(err){
+      alert("Could not read that file — is it a Roast Journal backup?");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+
+document.getElementById("resetAll").addEventListener("click", function(){
+  confirmDialog("Clear everything?", "All roasts and your name will be permanently deleted from this device.", function(){
+    state = freshState();
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    document.getElementById("studentName").value="";
+    document.getElementById("studentTeam").value="";
+    openRoastId=null; renderList();
+    document.querySelector('.tab[data-tab="roasts"]').click();
+  });
+});
+
+/* ============ boot ============ */
+renderList();
+</script>
+</body>
+</html>
