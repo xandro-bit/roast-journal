@@ -251,20 +251,46 @@ header.app .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;
 .home-slot b{flex:0 0 28px;color:var(--coral-deep);font-weight:700;font-size:.82rem;padding-top:1px;}
 .home-slot span{font-size:.9rem;color:var(--ink-soft);line-height:1.45;}
 
-/* ---------- learn session accordions ---------- */
-.session-head{display:flex;align-items:center;gap:10px;background:var(--cashew);border-radius:11px;
-  padding:12px 15px;margin:16px 0 8px;cursor:pointer;user-select:none;min-height:50px;}
-.session-head:first-of-type{margin-top:6px;}
-.session-head .sname{font-weight:700;font-size:.98rem;flex:1;color:var(--robusta);}
+/* ---------- learn contents (map) ---------- */
+.session-head{display:flex;align-items:baseline;gap:8px;padding:6px 4px 4px;margin:18px 0 6px;
+  border-bottom:2px solid var(--cashew);}
+.session-head:first-of-type{margin-top:8px;}
+.session-head .sname{font-weight:700;font-size:.9rem;flex:1;color:var(--robusta);text-transform:uppercase;letter-spacing:.04em;}
 .session-head .ssub{font-size:.75rem;color:var(--ink-soft);font-weight:600;white-space:nowrap;}
-.session-head .chev{color:var(--robusta);transition:transform .2s;}
-.session-head.open .chev{transform:rotate(90deg);}
+.toc-row{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--border);
+  border-radius:11px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:8px;min-height:52px;
+  cursor:pointer;user-select:none;transition:transform .08s, background .15s;}
+.toc-row:active{transform:scale(.99);background:var(--crema);}
+.toc-title{flex:1;font-weight:600;font-size:1rem;line-height:1.3;}
+.toc-go{color:var(--granite);font-size:1.5rem;font-weight:700;line-height:1;}
 .note-count{color:var(--coral);font-size:.7rem;line-height:1;}
-.slide-note{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.slide-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
 .slide-note label{display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:6px;}
-.slide-note textarea,textarea.gen-note{width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;
-  padding:11px 13px;min-height:70px;resize:vertical;font-size:16px;line-height:1.45;}
-textarea.gen-note{min-height:120px;}
+textarea.reader-note{width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:11px 13px;min-height:80px;resize:vertical;font-size:16px;line-height:1.45;}
+textarea.reader-note.big{min-height:180px;}
+
+/* ---------- learn reader (focused, swipeable) ---------- */
+.reader{position:fixed;inset:0;z-index:80;background:var(--crema);display:flex;flex-direction:column;}
+.reader-bar{display:flex;align-items:center;gap:8px;background:var(--robusta);color:var(--crema);
+  padding:calc(10px + env(safe-area-inset-top)) 12px 10px;}
+.reader-back{background:none;border:none;color:var(--crema);font-weight:600;font-size:.95rem;min-height:44px;padding:0 6px;display:flex;align-items:center;}
+.reader-prog{flex:1;text-align:center;font-size:.82rem;font-weight:700;letter-spacing:.04em;opacity:.85;font-variant-numeric:tabular-nums;}
+.reader-x{background:none;border:none;color:var(--crema);font-size:1.2rem;min-height:44px;min-width:44px;opacity:.85;}
+.reader-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
+.reader-page{max-width:640px;margin:0 auto;padding:20px 18px 8px;}
+.reader-page.in-next{animation:rdrNext .22s ease;}
+.reader-page.in-prev{animation:rdrPrev .22s ease;}
+@keyframes rdrNext{from{opacity:0;transform:translateX(24px);}to{opacity:1;transform:none;}}
+@keyframes rdrPrev{from{opacity:0;transform:translateX(-24px);}to{opacity:1;transform:none;}}
+.reader-eyebrow{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--coral-deep);margin-bottom:6px;}
+.reader-title{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.7rem;color:var(--robusta);line-height:1.15;margin-bottom:14px;}
+.reader-lead{font-size:.9rem;color:var(--ink-soft);margin-bottom:12px;line-height:1.5;}
+.reader-body{font-size:1rem;}
+.reader-nav{display:flex;gap:10px;max-width:640px;margin:0 auto;width:100%;padding:8px 18px 4px;}
+.reader-nav .btn{flex:1;}
+.reader-nav .btn:disabled{opacity:.4;pointer-events:none;}
+.reader-hint{text-align:center;font-size:.74rem;color:var(--ink-soft);padding:6px 0 calc(10px + env(safe-area-inset-bottom));}
 </style>
 </head>
 <body>
@@ -330,6 +356,21 @@ textarea.gen-note{min-height:120px;}
 </div>
 
 <button id="fab">+ New Roast</button>
+
+<!-- Learn reader (focused, swipeable) -->
+<div class="reader hidden" id="reader">
+  <div class="reader-bar">
+    <button class="reader-back" id="readerBack">‹ Contents</button>
+    <div class="reader-prog" id="readerProg">1 / 1</div>
+    <button class="reader-x" id="readerClose" aria-label="Close">✕</button>
+  </div>
+  <div class="reader-scroll" id="readerScroll"></div>
+  <div class="reader-nav">
+    <button class="btn btn-ghost" id="readerPrev">‹ Prev</button>
+    <button class="btn btn-ghost" id="readerNext">Next ›</button>
+  </div>
+  <div class="reader-hint">Swipe or use ‹ › to move between topics</div>
+</div>
 
 <!-- New roast modal -->
 <div class="modal-backdrop hidden" id="newModal">
@@ -1267,74 +1308,138 @@ function renderHome(){
   });
 }
 
-/* ============ learn tab ============ */
-var sessionOpen = {0:true};
-var slideOpen = {};
-function noteCount(){
-  var sn = (state.course && state.course.slideNotes) || {};
-  var n = 0; for(var k in sn){ if(sn[k] && sn[k].trim()) n++; }
-  return n;
+/* ============ learn tab — contents map + swipeable reader ============ */
+
+/* Flatten the course into a linear page sequence: general notes first, then every slide. */
+function buildPages(){
+  var pages = [{kind:"general", title:"My class notes", eyebrow:"Class notes"}];
+  COURSE.forEach(function(sec){
+    sec.slides.forEach(function(sl){
+      pages.push({kind:"slide", slide:sl, title:sl.title, eyebrow:sec.session+" · "+sec.sub});
+    });
+  });
+  return pages;
 }
+function hasNoteFor(page){
+  if(page.kind==="general") return !!(state.course.general && state.course.general.trim());
+  var v = state.course.slideNotes[page.slide.id];
+  return !!(v && v.trim());
+}
+
+/* ---- contents (the map) ---- */
 function renderLearn(){
   var host = document.getElementById("learnContent");
   host.innerHTML = "";
-  host.appendChild(el("p",{class:"learn-intro",text:"The two-day course, slide by slide. Tap a session, then a slide — and jot notes right where each concept is taught."}));
+  host.appendChild(el("p",{class:"learn-intro",text:"The two-day course, slide by slide. Tap any topic to open it — then swipe left/right to move through the class."}));
 
-  /* general class notepad */
-  var genOpen = slideOpen.__general;
-  var genCard = el("div",{class:"card learn-card"+(genOpen?" open":"")});
-  genCard.appendChild(el("div",{class:"card-head", onclick:function(){ slideOpen.__general = !slideOpen.__general; renderLearn(); }},[
-    el("span",{class:"roast-label",text:"📝 My class notes"}),
-    (state.course.general && state.course.general.trim()) ? el("span",{class:"note-count",text:"●"}) : null,
-    el("span",{class:"chev",html:"&#9654;"})
-  ]));
-  if(genOpen){
-    var gb = el("div",{class:"card-body"});
-    var gt = el("textarea",{class:"gen-note",placeholder:"General notes for the whole course…"});
-    bind(gt, state.course, "general");
-    gb.appendChild(gt);
-    genCard.appendChild(gb);
-  }
-  host.appendChild(genCard);
+  var pages = buildPages();
 
-  COURSE.forEach(function(sec, si){
-    var open = !!sessionOpen[si];
-    var sh = el("div",{class:"session-head"+(open?" open":""), onclick:(function(idx){return function(){
-      sessionOpen[idx] = !sessionOpen[idx]; renderLearn();
-    };})(si)},[
+  /* general class notes row */
+  host.appendChild(tocRow(0, "📝 My class notes", hasNoteFor(pages[0])));
+
+  var idx = 1;
+  COURSE.forEach(function(sec){
+    host.appendChild(el("div",{class:"session-head"},[
       el("span",{class:"sname",text:sec.session}),
-      el("span",{class:"ssub",text:sec.sub}),
-      el("span",{class:"chev",html:"&#9654;"})
-    ]);
-    host.appendChild(sh);
-    if(!open) return;
-
+      el("span",{class:"ssub",text:sec.sub})
+    ]));
     sec.slides.forEach(function(sl){
-      var isOpen = !!slideOpen[sl.id];
-      var hasNote = !!(state.course.slideNotes[sl.id] && state.course.slideNotes[sl.id].trim());
-      var card = el("div",{class:"card learn-card"+(isOpen?" open":"")});
-      card.appendChild(el("div",{class:"card-head", onclick:(function(id){return function(){
-        slideOpen[id] = !slideOpen[id]; renderLearn();
-      };})(sl.id)},[
-        el("span",{class:"roast-label",text:sl.title}),
-        hasNote ? el("span",{class:"note-count",text:"●"}) : null,
-        el("span",{class:"chev",html:"&#9654;"})
-      ]));
-      if(isOpen){
-        var body = el("div",{class:"card-body learn-body"});
-        body.appendChild(el("div",{html:sl.body}));
-        var note = el("div",{class:"slide-note"});
-        note.appendChild(el("label",{text:"My notes"}));
-        var ta = el("textarea",{placeholder:"Notes on this slide…"});
-        bind(ta, state.course.slideNotes, sl.id);
-        note.appendChild(ta);
-        body.appendChild(note);
-        card.appendChild(body);
-      }
-      host.appendChild(card);
+      host.appendChild(tocRow(idx, sl.title, hasNoteFor(pages[idx])));
+      idx++;
     });
   });
 }
+function tocRow(pageIndex, title, hasNote){
+  return el("div",{class:"toc-row", onclick:(function(i){return function(){ openReader(i); };})(pageIndex)},[
+    el("span",{class:"toc-title",text:title}),
+    hasNote ? el("span",{class:"note-count",text:"●"}) : null,
+    el("span",{class:"toc-go",html:"&#8250;"})
+  ]);
+}
+
+/* ---- reader (focused, swipeable) ---- */
+var PAGES = null;
+var readerIndex = 0;
+function openReader(i){
+  PAGES = buildPages();
+  readerIndex = Math.max(0, Math.min(i, PAGES.length-1));
+  document.getElementById("reader").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  renderReader(0);
+}
+function closeReader(){
+  document.getElementById("reader").classList.add("hidden");
+  document.body.style.overflow = "";
+  renderLearn(); // refresh note dots on the map
+}
+function readerGo(delta){
+  var ni = readerIndex + delta;
+  if(ni < 0 || ni >= PAGES.length) return;
+  readerIndex = ni;
+  renderReader(delta);
+}
+function renderReader(dir){
+  var p = PAGES[readerIndex];
+  document.getElementById("readerProg").textContent = (readerIndex+1) + " / " + PAGES.length;
+  var scroll = document.getElementById("readerScroll");
+  scroll.innerHTML = "";
+
+  var page = el("div",{class:"reader-page"});
+  page.appendChild(el("div",{class:"reader-eyebrow",text:p.eyebrow}));
+  page.appendChild(el("div",{class:"reader-title",text:p.title}));
+
+  if(p.kind==="general"){
+    page.appendChild(el("p",{class:"reader-lead",text:"Jot anything for the whole course here — it saves automatically and shows up in your export."}));
+    var gt = el("textarea",{class:"reader-note big",placeholder:"General notes…"});
+    bind(gt, state.course, "general");
+    page.appendChild(gt);
+  }else{
+    page.appendChild(el("div",{class:"learn-body reader-body",html:"<div>"+p.slide.body+"</div>"}));
+    var nl = el("div",{class:"slide-note"});
+    nl.appendChild(el("label",{text:"My notes"}));
+    var ta = el("textarea",{class:"reader-note",placeholder:"Notes on this slide…"});
+    bind(ta, state.course.slideNotes, p.slide.id);
+    nl.appendChild(ta);
+    page.appendChild(nl);
+  }
+  if(dir){ page.classList.add(dir>0 ? "in-next" : "in-prev"); }
+  scroll.appendChild(page);
+  scroll.scrollTop = 0;
+
+  document.getElementById("readerPrev").disabled = (readerIndex===0);
+  document.getElementById("readerNext").disabled = (readerIndex===PAGES.length-1);
+}
+
+/* wire reader controls + swipe + keyboard */
+(function(){
+  document.getElementById("readerBack").addEventListener("click", closeReader);
+  document.getElementById("readerClose").addEventListener("click", closeReader);
+  document.getElementById("readerPrev").addEventListener("click", function(){ readerGo(-1); });
+  document.getElementById("readerNext").addEventListener("click", function(){ readerGo(1); });
+
+  var sc = document.getElementById("readerScroll");
+  var x0=null, y0=null, t0=0;
+  sc.addEventListener("touchstart", function(e){
+    if(e.target.tagName==="TEXTAREA"){ x0=null; return; }
+    var t=e.touches[0]; x0=t.clientX; y0=t.clientY; t0=Date.now();
+  }, {passive:true});
+  sc.addEventListener("touchend", function(e){
+    if(x0==null) return;
+    var t=e.changedTouches[0];
+    var dx=t.clientX-x0, dy=t.clientY-y0;
+    if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.4 && (Date.now()-t0)<650){
+      readerGo(dx<0 ? 1 : -1);
+    }
+    x0=null;
+  }, {passive:true});
+
+  document.addEventListener("keydown", function(e){
+    if(document.getElementById("reader").classList.contains("hidden")) return;
+    if(e.key==="ArrowRight") readerGo(1);
+    else if(e.key==="ArrowLeft") readerGo(-1);
+    else if(e.key==="Escape") closeReader();
+  });
+})();
 
 /* ============ global clock ticker ============ */
 function tickActiveClock(){

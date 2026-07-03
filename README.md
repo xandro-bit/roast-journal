@@ -22,11 +22,12 @@ leaves the device. Works offline once loaded.
   reflection against the cupping notes (no scoring, just reflection).
 - **Home** — the landing tab: brand, a one-line intro, the Day 1 / Day 2 class agenda
   (AM/PM), and quick buttons to start a roast or browse the course.
-- **Learn** — the two-day course, slide by slide, grouped under collapsible Day/session
-  headers (Day 1 morning theory → afternoon roast-to-target; Day 2 morning tasting →
-  afternoon roast-for-taste). Each slide carries its talking points and a **per-slide notes
-  field**, plus a **general class notepad**. All notes are included in the export/print
-  and JSON backup.
+- **Learn** — a scannable contents map of the whole course (Day/session headers with a row
+  per slide, in class order). Tap any topic to open a **focused, swipeable reader**: one
+  concept per screen, swipe left/right (or Prev/Next), a progress indicator, and the notes
+  field in context. There's also a **general class notepad** (page 1 of the reader). Every
+  slide/topic that has a note shows a dot on the map. All notes flow into the export/print,
+  JSON backup, and copy-summary.
 - **Export & Print** — printable HTML journal (A4 print stylesheet), JSON backup + import,
   and a plain-text "Copy summary".
 
