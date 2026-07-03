@@ -45,7 +45,15 @@ leaves the device. Works offline once loaded.
    https://<user>.github.io/roast-journal/
    ```
 
-5. Generate a QR code pointing at that URL and print it on the student handout / show it in class.
+5. Print the QR code below on the student handout / show it in class — it points at the live app.
+
+## QR code
+
+`RoastJournal_QR.png` (in this repo) encodes the live URL
+`https://xandro-bit.github.io/roast-journal/` in the course brand colors. Drop it on the
+handout or project it in class for students to scan.
+
+![Roast Journal QR](RoastJournal_QR.png)
 
 ## Files
 
