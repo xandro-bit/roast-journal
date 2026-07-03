@@ -20,9 +20,13 @@ leaves the device. Works offline once loaded.
   scale (Grainy → Chocolate) and free notes.
 - **Predict → Actual** — Day 2 roasts get a prediction field up top and a side-by-side
   reflection against the cupping notes (no scoring, just reflection).
-- **Learn** — the two-day course outline plus quick-reference topics (three controls, the
-  three phases, reading the curve, BT·ET·ROR, building a plan, starting the machine, the
-  Jake Hu sweetness scale, roast level vs. cup, the cupping cross, defects, and Agtron).
+- **Home** — the landing tab: brand, a one-line intro, the Day 1 / Day 2 class agenda
+  (AM/PM), and quick buttons to start a roast or browse the course.
+- **Learn** — the two-day course, slide by slide, grouped under collapsible Day/session
+  headers (Day 1 morning theory → afternoon roast-to-target; Day 2 morning tasting →
+  afternoon roast-for-taste). Each slide carries its talking points and a **per-slide notes
+  field**, plus a **general class notepad**. All notes are included in the export/print
+  and JSON backup.
 - **Export & Print** — printable HTML journal (A4 print stylesheet), JSON backup + import,
   and a plain-text "Copy summary".
 
