@@ -20,6 +20,9 @@ leaves the device. Works offline once loaded.
   scale (Grainy → Chocolate) and free notes.
 - **Predict → Actual** — Day 2 roasts get a prediction field up top and a side-by-side
   reflection against the cupping notes (no scoring, just reflection).
+- **Learn** — the two-day course outline plus quick-reference topics (three controls, the
+  three phases, reading the curve, BT·ET·ROR, building a plan, starting the machine, the
+  Jake Hu sweetness scale, roast level vs. cup, the cupping cross, defects, and Agtron).
 - **Export & Print** — printable HTML journal (A4 print stylesheet), JSON backup + import,
   and a plain-text "Copy summary".
 

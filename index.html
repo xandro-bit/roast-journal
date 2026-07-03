@@ -212,6 +212,28 @@ header.app .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;
 #fab:active{background:var(--coral-deep);}
 
 .hidden{display:none!important;}
+
+/* ---------- learn tab ---------- */
+.learn-intro{font-size:.9rem;color:var(--ink-soft);margin:2px 0 14px;padding:0 2px;}
+.outline{background:var(--robusta);color:var(--crema);border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow);}
+.outline h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.35rem;margin-bottom:10px;}
+.outline .day{margin-bottom:12px;}
+.outline .day:last-child{margin-bottom:0;}
+.outline .dname{font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;opacity:.85;margin-bottom:5px;}
+.outline .slot{display:flex;gap:8px;font-size:.9rem;padding:3px 0;line-height:1.35;}
+.outline .slot b{flex:0 0 34px;color:var(--honey);font-weight:700;}
+.learn-card .card-head .roast-label{font-size:1rem;}
+.learn-body p{font-size:.92rem;margin-bottom:8px;line-height:1.45;}
+.learn-body ul{list-style:none;margin:0;}
+.learn-body li{font-size:.92rem;padding:5px 0 5px 0;border-top:1px solid var(--border);line-height:1.4;}
+.learn-body li:first-child{border-top:none;}
+.learn-body li b{color:var(--robusta);}
+.learn-body .tag{display:inline-block;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.03em;background:var(--sage);color:#3f6b4e;padding:2px 8px;border-radius:12px;margin-right:6px;vertical-align:middle;}
+.learn-body .tag.b{background:var(--honey);color:#9a6a2e;}
+.learn-body .tag.c{background:var(--peach);color:var(--coral-deep);}
+.learn-body .tag.blue{background:var(--blue);color:#fff;}
+.learn-body .warn{color:var(--coral-deep);font-weight:600;}
+.learn-body .lead{font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:10px;}
 </style>
 </head>
 <body>
@@ -229,6 +251,7 @@ header.app .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;
 
 <nav class="tabs" id="tabs">
   <button class="tab active" data-tab="roasts">Roasts</button>
+  <button class="tab" data-tab="learn">Learn</button>
   <button class="tab" data-tab="export">Export &amp; Print</button>
 </nav>
 
@@ -237,6 +260,10 @@ header.app .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;
 <div class="wrap">
   <section id="tab-roasts">
     <div id="roastList"></div>
+  </section>
+
+  <section id="tab-learn" class="hidden">
+    <div id="learnContent"></div>
   </section>
 
   <section id="tab-export" class="hidden">
@@ -327,6 +354,7 @@ var MILESTONES = [
 /* ============ state ============ */
 var state = loadState();
 var openRoastId = null;
+var activeClockEl = null;
 
 /* ============ persistence ============ */
 function freshState(){ return { student:{name:"",team:""}, roasts:[] }; }
@@ -429,13 +457,17 @@ function bind(input, obj, key, isNum){
 }
 
 /* ============ tabs ============ */
+var TAB_NAMES = ["roasts","learn","export"];
 document.getElementById("tabs").addEventListener("click", function(e){
   var t = e.target.closest(".tab"); if(!t) return;
   document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
   t.classList.add("active");
   var name = t.dataset.tab;
-  document.getElementById("tab-roasts").classList.toggle("hidden", name!=="roasts");
-  document.getElementById("tab-export").classList.toggle("hidden", name!=="export");
+  TAB_NAMES.forEach(function(n){
+    document.getElementById("tab-"+n).classList.toggle("hidden", n!==name);
+  });
+  document.getElementById("fab").classList.toggle("hidden", name!=="roasts");
+  window.scrollTo(0,0);
 });
 
 /* ============ identity ============ */
@@ -676,19 +708,12 @@ function liveLog(r){
   }
   refreshStats();
 
-  /* live clock loop (recompute from Date.now, resilient to backgrounding) */
-  function tick(){
-    if(r.id !== openRoastId){ return; } // stop when card closed / re-rendered
-    if(r.log.chargeStamp!=null && !allStamped(r)){
-      clock.textContent = fmtClock(Date.now() - r.log.chargeStamp);
-    }
-    liveLog._raf = requestAnimationFrame(function(){ setTimeout(tick, 250); });
-  }
+  /* register this clock with the single global ticker (robust to backgrounding) */
+  activeClockEl = clock;
   if(r.log.chargeStamp!=null){
-    clock.textContent = allStamped(r) && r.log.drop.time!=null
+    clock.textContent = (allStamped(r) && r.log.drop.time!=null)
       ? fmtClock(r.log.drop.time*1000)
       : fmtClock(Date.now() - r.log.chargeStamp);
-    tick();
   }
 
   wrap._refreshStats = refreshStats;
@@ -1038,7 +1063,140 @@ document.getElementById("resetAll").addEventListener("click", function(){
   });
 });
 
+/* ============ learn tab ============ */
+var LEARN = [
+  {t:"The three controls", body:
+    '<p class="lead">Energy and Air do the work. Drum speed sets the stage.</p><ul>'+
+    '<li><b>Gas · Energy</b> — total heat input. The accelerator pedal.</li>'+
+    '<li><b>Fan · Air</b> — rate of heat delivery through the bean mass. The control beginners underestimate.</li>'+
+    '<li><b>Drum speed</b> — conduction/convection balance. Set before charge, held steady.</li>'+
+    '</ul><p><b>Air before heat</b> — always.</p>'},
+  {t:"Three phases, three jobs", body:'<ul>'+
+    '<li><span class="tag">A</span><b>Drying</b> · TP → Yellowing<br>Drives moisture from the core, builds the body foundation. Longer/hotter A = fuller body. <span class="warn">Rush it → grainy, thin, sour.</span></li>'+
+    '<li><span class="tag b">B</span><b>Maillard</b> · Yellowing → First Crack<br>Browning &amp; flavor complexity; acidity goes simple → complex. Longer B = softer, rounder. <span class="warn">Too much air → flat, hollow sweetness.</span></li>'+
+    '<li><span class="tag c">C</span><b>Development</b> · First Crack → Drop<br>Sweetness &amp; intensity finalize; caramelization deepens. More C = less origin character. <span class="warn">Push too far → flat, roasty finish.</span></li>'+
+    '</ul>'},
+  {t:"Reading the curve", body:'<ul>'+
+    '<li><b>TP</b> — Turning Point: bean temp bottoms out and starts to climb.</li>'+
+    '<li><b>DE</b> — Dry End (yellowing): moisture largely gone; browning begins.</li>'+
+    '<li><b>ROR</b> — Rate of Rise: how fast bean temp is climbing.</li>'+
+    '<li><b>1C</b> — First Crack: audible; the development window opens.</li>'+
+    '<li><b>DTR</b> — Development Time Ratio: % of the roast spent after 1C.</li>'+
+    '<li><b>Drop</b> — end of roast; beans into the cooling tray.</li>'+
+    '</ul>'},
+  {t:"Reading the machine — BT · ET · ROR", body:'<ul>'+
+    '<li><b>BT</b> — Bean Temp: the probe in the bean mass. Your primary curve.</li>'+
+    '<li><b>ET</b> — Environment Temp: the air/drum around the beans. Leads BT.</li>'+
+    '<li><b>ROR</b> — slope of BT. Should decline smoothly to the drop.</li>'+
+    '</ul><p>The BT–ET gap tells you whether beans are absorbing or resisting heat.</p>'},
+  {t:"Build a roast plan", body:
+    '<p class="lead">Plan → Roast → Measure → Adjust.</p><ul>'+
+    '<li><b>Charge Temp</b> <em>(set first)</em> — where the drum sits when beans go in; sets early aggression.</li>'+
+    '<li><b>Phase &amp; Total Time</b> <em>(shape)</em> — how long A, B, C each run, and the whole roast.</li>'+
+    '<li><b>End Temperature</b> <em>(land on)</em> — the drop temp that finishes development.</li>'+
+    '<li><b>Agtron Target</b> <em>(verify)</em> — measured color; proves you hit the plan, not just felt it.</li>'+
+    '</ul>'},
+  {t:"Starting the machine", body:'<ul>'+
+    '<li><b>1 · Drum / Fan on</b> — start rotation and airflow together, before any heat.</li>'+
+    '<li><b>2 · Wait for the underpressure light</b> — the machine confirms airflow first.</li>'+
+    '<li><b>3 · Start burner</b> — energy to level 3+, a stable working flame.</li>'+
+    '<li><b>4 · Warm up 15–30 min</b> — let the drum reach a stable, repeatable start temp.</li>'+
+    '</ul><p><b>Air before heat.</b> The machine won\'t let you skip it — and neither should you.</p>'},
+  {t:"How heat moves", body:'<ul>'+
+    '<li><b>Conduction</b> — contact: heat into beans touching the hot drum.</li>'+
+    '<li><b>Convection</b> — airflow: hot air through and around the bean mass.</li>'+
+    '<li><b>Radiative</b> — glow: energy radiating from hot drum walls and elements.</li>'+
+    '</ul><p>A drum roaster uses all three at once. Your controls change the balance.</p>'},
+  {t:"The green bean — read 6 before every roast", body:'<ul>'+
+    '<li><b>01 · Density</b></li><li><b>02 · Moisture</b></li><li><b>03 · Size</b></li>'+
+    '<li><b>04 · Water activity</b></li><li><b>05 · Visual cues</b></li><li><b>06 · Processing method</b></li>'+
+    '</ul><p>What you start with sets the ceiling for what you can achieve.</p>'},
+  {t:"Chemical reactions", body:'<ul>'+
+    '<li><span class="tag">A</span><b>Enzymatic</b> — origin &amp; variety flavors: fruity, floral, herby. The farmer\'s contribution.</li>'+
+    '<li><span class="tag b">B</span><b>Maillard / Caramelization</b> — sugars &amp; amino acids react; sweetness, body and balance built.</li>'+
+    '<li><span class="tag c">C</span><b>Dry Distillation</b> — flavor breaks down under intense heat; carbon, spice, chocolate emerge; origin fades.</li>'+
+    '</ul><p>Yellowing → First Crack → Second Crack: each threshold shifts which reactions dominate.</p>'},
+  {t:"Sweetness scale (Jake Hu)", body:'<ul>'+
+    '<li><b>1 · Grainy</b> — underdeveloped, cereal-like.</li>'+
+    '<li><b>2 · Grainy Candy</b> — a little fruity sweetness.</li>'+
+    '<li><b>3 · Candy Minus</b> — fruity, slight raw note.</li>'+
+    '<li><b>4 · Candy</b> — balanced, clean sweetness.</li>'+
+    '<li><b>5 · Candy Plus</b> — brown sugar, caramel.</li>'+
+    '<li><b>6 · Candy Chocolate</b> — chocolate emerging.</li>'+
+    '<li><b>7 · Chocolate</b> — origin fades, roast leads.</li>'+
+    '</ul><p>As development increases, sweetness shifts and origin character fades.</p>'},
+  {t:"Roast level vs. cup attributes", body:'<ul>'+
+    '<li><b>Light</b> — acidity &amp; aroma loud; body thin, flavor not yet built.</li>'+
+    '<li><b>Medium</b> — flavor peaks; aroma high, body filling, acidity easing.</li>'+
+    '<li><b>Dark</b> — body sustains, complexity fades; body &amp; bitterness lead.</li>'+
+    '</ul><p>Acidity peaks light · flavor peaks medium · body rises then sustains · aroma peaks early–medium.</p>'},
+  {t:"Cupping cross", body:
+    '<p class="lead">Change one variable, taste the difference.</p><ul>'+
+    '<li><span class="tag blue">Set 1</span><b>Phase B &amp; C duration</b><br>More C (dev) → deeper sweetness, less acidity, more body. More B (Maillard) → softer, rounder, more complex acidity.</li>'+
+    '<li><span class="tag blue">Set 2</span><b>Phase A &amp; charge temp</b><br>Longer drying → fuller body, rounder base (too short → thin, grassy). Hotter charge → more early aggression; cooler → gentler start.</li>'+
+    '</ul>'},
+  {t:"Roast defects", body:'<ul>'+
+    '<li><b>Underdeveloped</b> — Phase C too short. Grassy, grainy, sour.</li>'+
+    '<li><b>Baked</b> — heat stalled mid-roast. Flat, dull, papery.</li>'+
+    '<li><b>Scorching</b> — charge temp too high. Burnt exterior.</li>'+
+    '<li><b>Tipping / Facing</b> — excessive conduction. Bean ends darkened.</li>'+
+    '<li><b>Overdeveloped</b> — past 2nd crack. Bitter, ashy.</li>'+
+    '<li><b>Quakers</b> — immature beans. A green-coffee defect.</li>'+
+    '</ul>'},
+  {t:"Roasting to a number (Agtron)", body:
+    '<p>Agtron measures roast color objectively — a <b>higher number = a lighter roast</b>. It turns "looks about right" into a target you can repeat.</p>'+
+    '<p>Light / Medium / Dark target bands are set during course R&amp;D — fill them into each roast\'s plan.</p>'}
+];
+var learnOpen = {};
+function renderLearn(){
+  var host = document.getElementById("learnContent");
+  host.innerHTML = "";
+
+  host.appendChild(el("p",{class:"learn-intro",text:"Quick reference from the two-day course. Tap a topic to expand."}));
+
+  var outline = el("div",{class:"outline"});
+  outline.appendChild(el("h3",{text:"Course outline"}));
+  var d1 = el("div",{class:"day"});
+  d1.appendChild(el("div",{class:"dname",text:"Day 1 · Understanding & Executing the Roast"}));
+  d1.appendChild(el("div",{class:"slot"},[el("b",{text:"AM"}),document.createTextNode("Cup & discuss · theory: green bean, heat, controls, phases, curve, targets")]));
+  d1.appendChild(el("div",{class:"slot"},[el("b",{text:"PM"}),document.createTextNode("Build a plan, start the machine, roast to target (Light / Medium / Dark)")]));
+  var d2 = el("div",{class:"day"});
+  d2.appendChild(el("div",{class:"dname",text:"Day 2 · Tasting & Refining the Roast"}));
+  d2.appendChild(el("div",{class:"slot"},[el("b",{text:"AM"}),document.createTextNode("Cup yesterday's roasts · cupping cross · sweetness, roast level, defects")]));
+  d2.appendChild(el("div",{class:"slot"},[el("b",{text:"PM"}),document.createTextNode("Pick a variable · predict the cup · roast it · taste it — same day")]));
+  outline.appendChild(d1); outline.appendChild(d2);
+  host.appendChild(outline);
+
+  LEARN.forEach(function(item, i){
+    var isOpen = !!learnOpen[i];
+    var card = el("div",{class:"card learn-card"+(isOpen?" open":"")});
+    var head = el("div",{class:"card-head", onclick:(function(idx){return function(){
+      learnOpen[idx] = !learnOpen[idx]; renderLearn();
+    };})(i)},[
+      el("span",{class:"roast-label",text:item.t}),
+      el("span",{class:"chev",html:"&#9654;"})
+    ]);
+    card.appendChild(head);
+    if(isOpen){
+      card.appendChild(el("div",{class:"card-body learn-body",html:item.body}));
+    }
+    host.appendChild(card);
+  });
+}
+
+/* ============ global clock ticker ============ */
+function tickActiveClock(){
+  if(!activeClockEl || !activeClockEl.isConnected) return;
+  var r = openRoastId ? getRoast(openRoastId) : null;
+  if(!r || r.log.chargeStamp==null) return;
+  if(allStamped(r) && r.log.drop.time!=null) return; // frozen at drop
+  activeClockEl.textContent = fmtClock(Date.now() - r.log.chargeStamp);
+}
+setInterval(tickActiveClock, 500);
+document.addEventListener("visibilitychange", function(){ if(!document.hidden) tickActiveClock(); });
+
 /* ============ boot ============ */
+renderLearn();
 renderList();
 </script>
 </body>
