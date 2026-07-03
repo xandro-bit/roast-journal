@@ -512,7 +512,7 @@ function newRoast(day, label){
     id: uuid(),
     day: day,
     label: label || (day===2 ? "Day 2 roast" : "Untitled roast"),
-    plan:{ chargeTemp:null, phaseA_target:null, phaseB_target:null, phaseC_target:null,
+    plan:{ chargeTemp:null, phaseA_target:"3:00", phaseB_target:"3:00", phaseC_target:"1:30",
            totalTime_target:null, endTemp:null, agtronTarget:null },
     log:{ chargeTemp:null,
           TP:{time:null,temp:null}, DE:{time:null,temp:null},
@@ -770,6 +770,10 @@ function liveLog(r){
   stats.appendChild(dtrStat);
   wrap.appendChild(stats);
 
+  /* phase split + per-phase ROR trend (from the stamped milestones) */
+  var rorLine = el("div",{class:"ror-line",style:"margin-top:8px;font-size:.76rem;color:var(--ink-soft);text-align:center;line-height:1.6;"});
+  wrap.appendChild(rorLine);
+
   function refreshStats(){
     var drop = r.log.drop && r.log.drop.time;
     var fc = r.log.FC && r.log.FC.time;
@@ -785,6 +789,23 @@ function liveLog(r){
     }else{
       dtrV.textContent = "—";
     }
+    /* phase durations (always) + per-phase ROR °/min when milestone temps are logged */
+    var L = r.log, ct = L.chargeTemp;
+    function seg(name, t0, temp0, m1){
+      if(!m1 || m1.time==null || t0==null) return null;
+      var dur = m1.time - t0; if(dur<=0) return null;
+      var s = name + " " + fmtClock(dur*1000);
+      if(temp0!=null && m1.temp!=null){
+        var rate = (m1.temp - temp0) / (dur/60);
+        s += " (" + (rate>=0?"+":"") + rate.toFixed(0) + "°/m)";
+      }
+      return s;
+    }
+    var parts = [], p;
+    p = seg("Drying", 0, ct, L.DE);              if(p) parts.push(p);
+    p = seg("Maillard", L.DE.time, L.DE.temp, L.FC);   if(p) parts.push(p);
+    p = seg("Dev", L.FC.time, L.FC.temp, L.drop);      if(p) parts.push(p);
+    rorLine.textContent = parts.join("   ·   ");
   }
   refreshStats();
 
