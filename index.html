@@ -356,6 +356,16 @@ textarea.reader-note.big{min-height:180px;}
 .as-verdict.pass{background:#E7F3EC;color:#3f7a54;}
 .as-verdict.fail{background:#FAE4DF;color:var(--coral-deep);}
 .as-review-h{font-weight:700;color:var(--ink);margin:22px 0 10px;font-size:.95rem;}
+/* photos */
+.photos{margin-top:10px;}
+.photo-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.photo-cell{position:relative;width:78px;height:78px;border-radius:12px;overflow:hidden;background:var(--crema);border:1px solid var(--border);}
+.photo-cell img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;}
+.photo-del{position:absolute;top:3px;right:3px;width:22px;height:22px;border:none;border-radius:99px;background:rgba(35,25,20,.62);color:#fff;font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.photo-add{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px dashed var(--coral-deep);background:transparent;color:var(--coral-deep);font-weight:600;font-size:.85rem;border-radius:99px;cursor:pointer;font-family:inherit;}
+.photo-add:active{background:#FAE4DF;}
+.lightbox{position:fixed;inset:0;z-index:9999;background:rgba(20,14,10,.9);display:flex;align-items:center;justify-content:center;padding:18px;cursor:zoom-out;}
+.lightbox img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.5);}
 </style>
 </head>
 <body>
@@ -487,7 +497,7 @@ var openRoastId = null;
 var activeClockEl = null;
 
 /* ============ persistence ============ */
-function freshState(){ return { student:{name:"",team:""}, roasts:[], course:{slideNotes:{},general:""}, progress:{step:0}, assessment:{answers:{},submitted:false,score:null,best:null} }; }
+function freshState(){ return { student:{name:"",team:""}, roasts:[], course:{slideNotes:{},slidePhotos:{},general:""}, progress:{step:0}, assessment:{answers:{},submitted:false,score:null,best:null} }; }
 
 function loadState(){
   try{
@@ -499,6 +509,7 @@ function loadState(){
     if(!Array.isArray(d.roasts)) d.roasts = [];
     if(!d.course || typeof d.course !== "object") d.course = {slideNotes:{},general:""};
     if(!d.course.slideNotes || typeof d.course.slideNotes !== "object") d.course.slideNotes = {};
+    if(!d.course.slidePhotos || typeof d.course.slidePhotos !== "object") d.course.slidePhotos = {};
     if(typeof d.course.general !== "string") d.course.general = "";
     if(!d.progress || typeof d.progress !== "object") d.progress = {step:0};
     if(typeof d.progress.step !== "number") d.progress.step = 0;
@@ -529,6 +540,68 @@ function flashSaved(){
   p.classList.add("show");
   clearTimeout(flashSaved._t);
   flashSaved._t = setTimeout(function(){ p.classList.remove("show"); }, 1100);
+}
+/* synchronous save — returns false if localStorage is full (used by photo add to roll back) */
+function saveNow(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); flashSaved(); return true; }
+  catch(e){ return false; }
+}
+
+/* ============ photos (camera / upload) ============ */
+function slidePhotos(id){
+  if(!state.course.slidePhotos) state.course.slidePhotos = {};
+  if(!Array.isArray(state.course.slidePhotos[id])) state.course.slidePhotos[id] = [];
+  return state.course.slidePhotos[id];
+}
+function addPhoto(file, arr, done){
+  if(!file || !/^image\//.test(file.type)) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      var max = 1024, w = img.width, h = img.height;
+      if(w > max || h > max){ var s = Math.min(max/w, max/h); w = Math.round(w*s); h = Math.round(h*s); }
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      var data = c.toDataURL("image/jpeg", 0.72);
+      arr.push(data);
+      if(!saveNow()){ arr.pop(); alert("Storage is full on this device — remove some photos or notes before adding more."); }
+      if(done) done();
+    };
+    img.onerror = function(){ alert("Sorry, that image couldn't be read."); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+function openPhoto(src){
+  var lb = el("div",{class:"lightbox"});
+  lb.appendChild(el("img",{src:src, alt:"photo"}));
+  lb.addEventListener("click", function(){ if(lb.parentNode) document.body.removeChild(lb); });
+  document.body.appendChild(lb);
+}
+/* reusable photo strip bound to an array of data-URLs; self-repaints, no view re-render */
+function photoStrip(arr){
+  var wrap = el("div",{class:"photos"});
+  var row = el("div",{class:"photo-row"});
+  function paint(){
+    row.innerHTML = "";
+    arr.forEach(function(src, idx){
+      var cell = el("div",{class:"photo-cell"});
+      var im = el("img",{src:src, alt:"photo"});
+      im.addEventListener("click", function(){ openPhoto(src); });
+      var del = el("button",{class:"photo-del","aria-label":"Remove photo", html:"&times;"});
+      del.addEventListener("click", function(e){ e.stopPropagation(); arr.splice(idx,1); saveNow(); paint(); });
+      cell.appendChild(im); cell.appendChild(del); row.appendChild(cell);
+    });
+    row.style.display = arr.length ? "" : "none";
+  }
+  var addBtn = el("button",{class:"photo-add", html:"📷 Add photo"});
+  var input = el("input",{type:"file", accept:"image/*", capture:"environment", style:"display:none;"});
+  addBtn.addEventListener("click", function(){ input.click(); });
+  input.addEventListener("change", function(e){ var f = e.target.files[0]; e.target.value = ""; if(f) addPhoto(f, arr, paint); });
+  wrap.appendChild(row); wrap.appendChild(addBtn); wrap.appendChild(input);
+  paint();
+  return wrap;
 }
 
 /* ============ helpers ============ */
@@ -579,6 +652,7 @@ function newRoast(label){
           chargeStamp:null },
     cupping:{ acidity:null,sweetness:null,bitterness:null,mouthfeel:null,finish:"",flavor:"",overall:"",notes:"" },
     evaluate:{ result:"", different:"", adjust:"" },
+    photos:[],
     createdAt: new Date().toISOString()
   };
 }
@@ -606,6 +680,7 @@ function migrateRoast(r){
   }else{
     if(!r.cupping) r.cupping = { acidity:null,sweetness:null,bitterness:null,mouthfeel:null,finish:"",flavor:"",overall:"",notes:"" };
   }
+  if(!Array.isArray(r.photos)) r.photos = [];
   if(!r.evaluate) r.evaluate = { result:"", different:"", adjust:"" };
   if(r.prediction && !r.evaluate.result){ r.evaluate.result = ""; r.cupping.notes = (r.cupping.notes?r.cupping.notes+"\n":"")+"(old prediction) "+r.prediction; }
   delete r.prediction;
@@ -802,6 +877,11 @@ function roastBody(r){
   /* ---------- TARGET vs RESULT → ADJUST ---------- */
   frag.appendChild(el("h3",{class:"section-title",text:"Evaluate — Target vs. Result"}));
   frag.appendChild(evaluateSection(r));
+
+  /* ---------- PHOTOS ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Photos"}));
+  frag.appendChild(el("div",{class:"help",style:"margin-bottom:8px;",text:"Snap the green, the roasted beans, your curve screen, or the cupping table."}));
+  frag.appendChild(photoStrip(r.photos));
 
   /* ---------- delete ---------- */
   var delWrap = el("div",{style:"margin-top:22px;"});
@@ -1208,7 +1288,12 @@ function exportHtmlDoc(){
     "th{background:#EDE9E4;}"+
     "h3{margin:8px 0 4px;font-size:15px;}"+
     ".pa{display:flex;gap:12px;margin-top:8px;}.pa>div{flex:1;border:1px solid #D8CFC6;border-radius:8px;padding:10px;}"+
+    ".gal{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}.gal img{width:150px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #D8CFC6;}"+
     "@page{size:A4;margin:16mm;}";
+  function gallery(arr){
+    if(!arr || !arr.length) return "";
+    return '<div class="gal">'+arr.map(function(src){ return '<img src="'+src+'" alt="photo">'; }).join("")+'</div>';
+  }
   var body = "";
   state.roasts.slice().sort(function(a,b){return (a.createdAt||"").localeCompare(b.createdAt||"");}).forEach(function(r){
     var log=r.log,c=r.cupping,ev=r.evaluate||{};
@@ -1236,6 +1321,7 @@ function exportHtmlDoc(){
       if(ev.different) body += '<p style="font-size:13px;margin-top:6px;"><strong>Different:</strong> '+esc(ev.different)+'</p>';
       if(ev.adjust) body += '<p style="font-size:13px;margin-top:4px;"><strong>Adjust next:</strong> '+esc(ev.adjust)+'</p>';
     }
+    if(r.photos && r.photos.length) body += '<h3>Photos</h3>'+gallery(r.photos);
     body += '</div>';
   });
   var cn = state.course || {slideNotes:{},general:""};
@@ -1243,7 +1329,8 @@ function exportHtmlDoc(){
   if(cn.general && cn.general.trim()) nb.push('<p style="margin:6px 0;"><strong>General</strong><br>'+esc(cn.general)+'</p>');
   COURSE.forEach(function(sec){ sec.slides.forEach(function(sl){
     var v = (cn.slideNotes||{})[sl.id];
-    if(v && v.trim()) nb.push('<p style="margin:6px 0;"><strong>'+esc(sl.title)+'</strong><br>'+esc(v)+'</p>');
+    var ph = (cn.slidePhotos||{})[sl.id];
+    if((v && v.trim()) || (ph && ph.length)) nb.push('<p style="margin:6px 0;"><strong>'+esc(sl.title)+'</strong>'+((v&&v.trim())?'<br>'+esc(v):'')+'</p>'+gallery(ph));
   }); });
   if(nb.length) body += '<div class="r"><h3>Class notes</h3>'+nb.join("")+'</div>';
   var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Roast Journal — '+esc(s.name||"")+'</title><style>'+css+'</style></head><body>'+
@@ -1478,6 +1565,7 @@ function renderCourse(dir){
     var ta = el("textarea",{placeholder:"Notes on this module…"});
     bind(ta, state.course.slideNotes, sl.id);
     note.appendChild(ta);
+    note.appendChild(photoStrip(slidePhotos(sl.id)));
     page.appendChild(note);
   }
   scroll.appendChild(page);
@@ -1620,15 +1708,7 @@ function renderResult(host){
     host.appendChild(card);
   });
 
-  var retake = el("button",{class:"btn btn-primary btn-block",style:"margin-top:8px;",text:"Retake assessment"});
-  retake.addEventListener("click", function(){
-    confirmDialog("Retake the assessment?", "Your answers will be cleared (your best score is kept).", function(){
-      state.assessment.answers = {}; state.assessment.submitted = false; state.assessment.score = null;
-      save(); renderAssess(); window.scrollTo(0,0);
-    });
-  });
-  host.appendChild(retake);
-  host.appendChild(el("button",{class:"btn btn-ghost btn-block",style:"margin-top:10px;",onclick:function(){ showView("landing"); }},"Back to home"));
+  host.appendChild(el("button",{class:"btn btn-primary btn-block",style:"margin-top:12px;",onclick:function(){ showView("landing"); }},"Back to home"));
 }
 
 /* ============ global clock ticker ============ */
