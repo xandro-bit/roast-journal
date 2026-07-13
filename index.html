@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#46362B">
-<title>Roast Journal</title>
+<title>Roast Journal · Roasting Fundamentals Level 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display:ital@1&display=swap" rel="stylesheet">
@@ -291,101 +291,158 @@ textarea.reader-note.big{min-height:180px;}
 .reader-nav .btn{flex:1;}
 .reader-nav .btn:disabled{opacity:.4;pointer-events:none;}
 .reader-hint{text-align:center;font-size:.74rem;color:var(--ink-soft);padding:6px 0 calc(10px + env(safe-area-inset-bottom));}
+
+/* ===== course-player rebuild ===== */
+.view{display:none;}
+.view.show{display:block;}
+.saved-pill{position:fixed;top:12px;right:12px;z-index:90;background:var(--robusta);color:var(--crema);font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:99px;opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none;}
+.saved-pill.show{opacity:.94;transform:none;}
+/* landing */
+.lp{max-width:520px;margin:0 auto;padding:36px 22px 56px;text-align:center;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+.lp-mark{width:60px;height:auto;margin:0 auto 18px;}
+.lp-brand{font-size:2.2rem;font-weight:700;color:var(--robusta);line-height:1;letter-spacing:-.01em;}
+.lp-academy{font-size:.72rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--coral-deep);margin-top:9px;}
+.lp-course{font-size:1rem;color:var(--ink-soft);margin-top:14px;}
+.lp-tag{font-size:.92rem;color:var(--ink-soft);line-height:1.5;margin:16px auto 22px;max-width:400px;}
+.lp-id{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.lp-id input{padding:13px 14px;border:1px solid var(--border);border-radius:12px;font-size:16px;text-align:center;background:#fff;color:var(--ink);}
+.lp-start{font-size:1.05rem;padding:15px;}
+.lp-links{display:flex;gap:10px;margin-top:12px;}
+.lp-links .btn{flex:1;}
+.lp .privacy{margin-top:24px;}
+/* top bar */
+.cbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;background:var(--robusta);color:var(--crema);padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));}
+.cbar-back{background:none;border:none;color:var(--crema);font-weight:600;font-size:.95rem;min-height:40px;padding:0 4px;cursor:pointer;}
+.cbar-title{flex:1;text-align:center;font-weight:700;font-size:.9rem;letter-spacing:.03em;}
+.cbar-count{font-size:.8rem;opacity:.85;font-variant-numeric:tabular-nums;min-width:46px;text-align:right;}
+.cprog{flex:1;height:6px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden;}
+.cprog-fill{height:100%;width:0;background:var(--coral);border-radius:99px;transition:width .25s ease;}
+/* course content */
+.cscroll{max-width:640px;margin:0 auto;padding:22px 18px 8px;}
+.cnav{position:sticky;bottom:0;display:flex;gap:10px;max-width:640px;margin:0 auto;padding:12px 18px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--paper) 72%,rgba(251,249,246,0));}
+.cnav .btn{flex:1;}
+.cnav .btn:disabled{opacity:.35;pointer-events:none;}
+.c-part{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral-deep);}
+.c-title{font-size:1.7rem;font-weight:700;color:var(--robusta);line-height:1.15;margin:6px 0 14px;letter-spacing:-.01em;}
+.c-title em{font-family:var(--serif);font-style:italic;font-weight:400;}
+.c-roast-cta{margin:18px 0 4px;}
+.c-note{margin-top:18px;}
+.c-note label{display:block;font-size:.8rem;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+.c-note textarea{width:100%;min-height:88px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 13px;font-size:15px;font-family:inherit;color:var(--ink);resize:vertical;}
+.c-hero{text-align:center;padding:24px 6px;}
+.c-hero .big-flow{font-size:1.05rem;font-weight:700;color:var(--robusta);line-height:1.95;}
+.c-hero .big-flow b{color:var(--coral-deep);}
+/* roast/assess scroll */
+.rscroll,.ascroll{max-width:640px;margin:0 auto;padding:16px 16px 120px;}
+.export-card{margin-top:18px;}
+/* assessment */
+.as-intro{text-align:center;padding:12px 6px 20px;}
+.as-q{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 16px 9px;margin-bottom:12px;}
+.as-q .qn{font-size:.75rem;font-weight:700;color:var(--coral-deep);}
+.as-q .qt{font-size:1rem;font-weight:600;color:var(--ink);margin:4px 0 12px;line-height:1.4;}
+.as-opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 12px;margin-bottom:8px;font-size:.95rem;color:var(--ink);cursor:pointer;line-height:1.35;}
+.as-opt .lt{font-weight:700;color:var(--ink-soft);flex:0 0 16px;}
+.as-opt.sel{border-color:var(--coral);background:#FBEEEA;}
+.as-opt.correct{border-color:#4a9a68;background:#E7F3EC;}
+.as-opt.wrong{border-color:var(--coral-deep);background:#FAE4DF;}
+.as-opt.correct .lt{color:#3f7a54;}
+.as-opt.wrong .lt{color:var(--coral-deep);}
+.as-submit{margin-top:6px;}
+.as-warn{text-align:center;font-size:.85rem;color:var(--coral-deep);margin:4px 0 10px;}
+.as-result{text-align:center;padding:22px 10px 8px;}
+.as-score{font-size:3.4rem;font-weight:800;color:var(--robusta);line-height:1;}
+.as-score .tot{color:var(--granite);font-size:1.6rem;}
+.as-verdict{display:inline-block;margin-top:14px;padding:7px 20px;border-radius:99px;font-weight:700;font-size:.95rem;}
+.as-verdict.pass{background:#E7F3EC;color:#3f7a54;}
+.as-verdict.fail{background:#FAE4DF;color:var(--coral-deep);}
+.as-review-h{font-weight:700;color:var(--ink);margin:22px 0 10px;font-size:.95rem;}
 </style>
 </head>
 <body>
 
-<header class="app">
-  <div class="inner">
-    <div class="brand">Roast <span class="j">Journal</span></div>
-    <div class="saved-pill" id="savedPill">Saved ✓</div>
+<!-- ============ LANDING ============ -->
+<section id="view-landing" class="view show">
+  <div class="lp">
+    <svg class="lp-mark" viewBox="0 0 100 74" aria-hidden="true">
+      <path d="M31 15 L69 15 A19 19 0 0 1 31 15 Z" fill="#46362B"/>
+      <path d="M22 41 L78 41 A28 28 0 0 1 22 41 Z" fill="#46362B"/>
+    </svg>
+    <div class="lp-brand">Good Cup</div>
+    <div class="lp-academy">Coffee Academy</div>
+    <div class="lp-course">Roasting Fundamentals · Level 1</div>
+    <p class="lp-tag">Your companion for the one-day course — follow the class, log your roast, and take the final assessment. Everything saves on this device.</p>
+    <div class="lp-id">
+      <input id="studentName" type="text" placeholder="Your name" autocomplete="name">
+      <input id="studentTeam" type="text" placeholder="Team (optional)">
+    </div>
+    <button class="btn btn-primary btn-block lp-start" id="startCourse">Start the course →</button>
+    <div class="lp-links">
+      <button class="btn btn-ghost" id="goRoast">☕ My roast log</button>
+      <button class="btn btn-ghost" id="goAssess">📝 Assessment</button>
+    </div>
+    <p class="privacy">🔒 Everything stays on this device — no account, no upload.</p>
   </div>
-  <div class="identity">
-    <input id="studentName" type="text" placeholder="Your name" autocomplete="name">
-    <input id="studentTeam" type="text" placeholder="Team">
+</section>
+
+<!-- ============ COURSE PLAYER ============ -->
+<section id="view-course" class="view">
+  <div class="cbar">
+    <button class="cbar-back" id="courseExit">‹ Home</button>
+    <div class="cprog"><div class="cprog-fill" id="courseProgFill"></div></div>
+    <div class="cbar-count" id="courseCount"></div>
   </div>
-</header>
+  <div class="cscroll" id="courseScroll"></div>
+  <div class="cnav">
+    <button class="btn btn-ghost" id="coursePrev">‹ Prev</button>
+    <button class="btn btn-primary" id="courseNext">Next ›</button>
+  </div>
+</section>
 
-<nav class="tabs" id="tabs">
-  <button class="tab active" data-tab="home">Home</button>
-  <button class="tab" data-tab="learn">Learn</button>
-  <button class="tab" data-tab="roasts">Roasts</button>
-  <button class="tab" data-tab="export">Export &amp; Print</button>
-</nav>
-
-<p class="privacy">🔒 Everything stays on this device — no account, no upload, no data leaves your phone.</p>
-
-<div class="wrap">
-  <section id="tab-home">
-    <div id="homeContent"></div>
-  </section>
-
-  <section id="tab-roasts" class="hidden">
+<!-- ============ ROAST LOG ============ -->
+<section id="view-roast" class="view">
+  <div class="cbar">
+    <button class="cbar-back" id="roastBack">‹ Back</button>
+    <div class="cbar-title">Roast Log</div>
+    <div class="cbar-count"></div>
+  </div>
+  <div class="rscroll">
     <div id="roastList"></div>
-  </section>
-
-  <section id="tab-learn" class="hidden">
-    <div id="learnContent"></div>
-  </section>
-
-  <section id="tab-export" class="hidden">
-    <div class="card"><div class="card-body" style="padding-top:18px;">
-      <h2 class="section-title" style="margin-top:0;">Export your journal</h2>
-      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:16px;">
-        Save a printable copy of every roast, or a JSON backup you can re-import later.
-      </p>
-      <div class="footer-tools">
-        <div class="tool-row" style="margin-bottom:10px;">
-          <button class="btn btn-primary" id="exportHtml">🖨️ Printable journal</button>
-          <button class="btn btn-ghost" id="exportJson">💾 JSON backup</button>
-        </div>
-        <div class="tool-row">
-          <button class="btn btn-ghost" id="copySummary">📋 Copy summary</button>
-          <button class="btn btn-ghost" id="importJson">📥 Import backup</button>
-        </div>
+    <div class="card export-card"><div class="card-body" style="padding-top:16px;">
+      <h2 class="section-title" style="margin-top:0;">Export &amp; backup</h2>
+      <div class="tool-row" style="margin-bottom:10px;">
+        <button class="btn btn-ghost" id="exportHtml">🖨️ Printable journal</button>
+        <button class="btn btn-ghost" id="exportJson">💾 JSON backup</button>
+      </div>
+      <div class="tool-row">
+        <button class="btn btn-ghost" id="copySummary">📋 Copy summary</button>
+        <button class="btn btn-ghost" id="importJson">📥 Import backup</button>
       </div>
       <input type="file" id="importFile" accept="application/json,.json" class="hidden">
+      <button class="btn btn-danger btn-block" id="resetAll" style="margin-top:14px;">Reset / clear all</button>
     </div></div>
-
-    <div class="card"><div class="card-body" style="padding-top:18px;">
-      <h2 class="section-title" style="margin-top:0;">Danger zone</h2>
-      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;">Clears every roast and your name from this device. Cannot be undone.</p>
-      <button class="btn btn-danger btn-block" id="resetAll">Reset / clear all</button>
-    </div></div>
-  </section>
-</div>
-
-<button id="fab">+ New Roast</button>
-
-<!-- Learn reader (focused, swipeable) -->
-<div class="reader hidden" id="reader">
-  <div class="reader-bar">
-    <button class="reader-back" id="readerBack">‹ Contents</button>
-    <div class="reader-prog" id="readerProg">1 / 1</div>
-    <button class="reader-x" id="readerClose" aria-label="Close">✕</button>
   </div>
-  <div class="reader-scroll" id="readerScroll"></div>
-  <div class="reader-nav">
-    <button class="btn btn-ghost" id="readerPrev">‹ Prev</button>
-    <button class="btn btn-ghost" id="readerNext">Next ›</button>
+</section>
+
+<!-- ============ ASSESSMENT ============ -->
+<section id="view-assess" class="view">
+  <div class="cbar">
+    <button class="cbar-back" id="assessBack">‹ Home</button>
+    <div class="cbar-title">Final Assessment</div>
+    <div class="cbar-count"></div>
   </div>
-  <div class="reader-hint">Swipe or use ‹ › to move between topics</div>
-</div>
+  <div class="ascroll" id="assessScroll"></div>
+</section>
+
+<button id="fab" class="hidden">+ New Roast</button>
+<div class="saved-pill" id="savedPill">Saved ✓</div>
 
 <!-- New roast modal -->
 <div class="modal-backdrop hidden" id="newModal">
   <div class="modal">
     <h3>New roast</h3>
     <div class="field">
-      <label>Which day?</label>
-      <div class="seg-toggle" id="daySeg">
-        <button data-day="1" class="on">Day 1</button>
-        <button data-day="2">Day 2</button>
-      </div>
-    </div>
-    <div class="field">
-      <label for="newLabel">Label</label>
-      <input id="newLabel" type="text" placeholder="e.g. Light, Medium, Dark, or free text" autocomplete="off">
+      <label for="newLabel">Coffee / batch label</label>
+      <input id="newLabel" type="text" placeholder="e.g. Team 2 · Colombia washed" autocomplete="off">
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="newCancel">Cancel</button>
@@ -411,21 +468,17 @@ textarea.reader-note.big{min-height:180px;}
 
 /* ============ constants ============ */
 var STORE_KEY = "roastJournal";
-var SWEET = [
-  {n:1, label:"Grainy",          c:"#EDE9E4"},
-  {n:2, label:"Grainy Candy",    c:"#EFDFCB"},
-  {n:3, label:"Candy Minus",     c:"#F1D5B8"},
-  {n:4, label:"Candy",           c:"#EDCFBA"},
-  {n:5, label:"Candy Plus",      c:"#E9B48F"},
-  {n:6, label:"Candy Chocolate", c:"#B98A63"},
-  {n:7, label:"Chocolate",       c:"#8A6247"}
+/* 1–5 intensity scale (matches the Participant Guide worksheets) */
+var SCALE5 = [
+  {n:1, c:"#EDE9E4"}, {n:2, c:"#F1D5B8"}, {n:3, c:"#EDCFBA"}, {n:4, c:"#E9B48F"}, {n:5, c:"#E8826E"}
 ];
+var SENSES = [["acidity","Acidity"],["sweetness","Sweetness"],["bitterness","Bitterness"],["mouthfeel","Mouthfeel"]];
 var MILESTONES = [
-  {key:"charge", name:"Charge",      cls:"charge"},
-  {key:"TP",     name:"TP",          cls:""},
-  {key:"DE",     name:"DE",          cls:""},
-  {key:"FC",     name:"First Crack", cls:""},
-  {key:"drop",   name:"Drop",        cls:""}
+  {key:"charge", name:"Charge",       cls:"charge"},
+  {key:"TP",     name:"TP",           cls:""},
+  {key:"CC",     name:"Color Change", cls:""},
+  {key:"FC",     name:"First Crack",  cls:""},
+  {key:"drop",   name:"Drop",         cls:""}
 ];
 
 /* ============ state ============ */
@@ -434,7 +487,7 @@ var openRoastId = null;
 var activeClockEl = null;
 
 /* ============ persistence ============ */
-function freshState(){ return { student:{name:"",team:""}, roasts:[], course:{slideNotes:{},general:""} }; }
+function freshState(){ return { student:{name:"",team:""}, roasts:[], course:{slideNotes:{},general:""}, progress:{step:0}, assessment:{answers:{},submitted:false,score:null,best:null} }; }
 
 function loadState(){
   try{
@@ -447,6 +500,11 @@ function loadState(){
     if(!d.course || typeof d.course !== "object") d.course = {slideNotes:{},general:""};
     if(!d.course.slideNotes || typeof d.course.slideNotes !== "object") d.course.slideNotes = {};
     if(typeof d.course.general !== "string") d.course.general = "";
+    if(!d.progress || typeof d.progress !== "object") d.progress = {step:0};
+    if(typeof d.progress.step !== "number") d.progress.step = 0;
+    if(!d.assessment || typeof d.assessment !== "object") d.assessment = {answers:{},submitted:false,score:null,best:null};
+    if(!d.assessment.answers || typeof d.assessment.answers !== "object") d.assessment.answers = {};
+    d.roasts.forEach(migrateRoast);
     return d;
   }catch(e){
     console.warn("Corrupt journal data, starting fresh.", e);
@@ -507,23 +565,51 @@ function esc(s){
 }
 function getRoast(id){ return state.roasts.filter(function(r){return r.id===id;})[0]; }
 
-function newRoast(day, label){
+function newRoast(label){
   return {
     id: uuid(),
-    day: day,
-    label: label || (day===2 ? "Day 2 roast" : "Untitled roast"),
-    plan:{ chargeTemp:null, phaseA_target:"3:00", phaseB_target:"3:00", phaseC_target:"1:30",
-           totalTime_target:null, endTemp:null, agtronTarget:null },
+    label: label || "Untitled roast",
+    plan:{ cupTarget:"", chargeTemp:null, phaseA_target:"3:00", phaseB_target:"3:00", phaseC_target:"1:30",
+           totalTime_target:null, endTemp:null, agtronTarget:null, controlPlan:"" },
     log:{ chargeTemp:null,
-          TP:{time:null,temp:null}, DE:{time:null,temp:null},
+          TP:{time:null,temp:null}, CC:{time:null,temp:null},
           FC:{time:null,temp:null}, drop:{time:null,temp:null},
           energySettings:"", airSettings:"",
-          totalTime_actual:null, agtronActual:null,
+          totalTime_actual:null, agtronActual:null, weightGreen:null, weightRoasted:null,
           chargeStamp:null },
-    prediction:"",
-    cupping:{ aroma:"",acidity:"",sweetness:"",body:"",flavor:"",sweetnessStage:null,notes:"" },
+    cupping:{ acidity:null,sweetness:null,bitterness:null,mouthfeel:null,finish:"",flavor:"",overall:"",notes:"" },
+    evaluate:{ result:"", different:"", adjust:"" },
     createdAt: new Date().toISOString()
   };
+}
+
+/* migrate journals saved by the old two-day version of the app */
+function migrateRoast(r){
+  if(!r.plan) r.plan = {};
+  if(typeof r.plan.cupTarget !== "string") r.plan.cupTarget = "";
+  if(typeof r.plan.controlPlan !== "string") r.plan.controlPlan = "";
+  if(!r.log) r.log = {};
+  if(!r.log.CC) r.log.CC = r.log.DE || {time:null,temp:null};   /* Dry End → Color Change */
+  delete r.log.DE;
+  if(r.log.weightGreen===undefined) r.log.weightGreen = null;
+  if(r.log.weightRoasted===undefined) r.log.weightRoasted = null;
+  var c = r.cupping || {};
+  if(typeof c.acidity === "string" || typeof c.sweetness === "string" || c.sweetnessStage !== undefined){
+    var old = [];
+    [["Aroma","aroma"],["Acidity","acidity"],["Sweetness","sweetness"],["Body","body"],["Flavor","flavor"]].forEach(function(p){
+      if(typeof c[p[1]]==="string" && c[p[1]]) old.push(p[0]+": "+c[p[1]]);
+    });
+    if(c.sweetnessStage!=null) old.push("Old sweetness stage: "+c.sweetnessStage);
+    r.cupping = { acidity:null,sweetness:null,bitterness:null,mouthfeel:null,
+      finish:"", flavor:(typeof c.flavor==="string"?c.flavor:""), overall:"",
+      notes: [ (c.notes||""), (old.length?("(migrated) "+old.join(" · ")):"") ].filter(Boolean).join("\n") };
+  }else{
+    if(!r.cupping) r.cupping = { acidity:null,sweetness:null,bitterness:null,mouthfeel:null,finish:"",flavor:"",overall:"",notes:"" };
+  }
+  if(!r.evaluate) r.evaluate = { result:"", different:"", adjust:"" };
+  if(r.prediction && !r.evaluate.result){ r.evaluate.result = ""; r.cupping.notes = (r.cupping.notes?r.cupping.notes+"\n":"")+"(old prediction) "+r.prediction; }
+  delete r.prediction;
+  return r;
 }
 
 /* debounced binding for text/number inputs */
@@ -536,19 +622,34 @@ function bind(input, obj, key, isNum){
   });
 }
 
-/* ============ tabs ============ */
-var TAB_NAMES = ["home","learn","roasts","export"];
-document.getElementById("tabs").addEventListener("click", function(e){
-  var t = e.target.closest(".tab"); if(!t) return;
-  document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
-  t.classList.add("active");
-  var name = t.dataset.tab;
-  TAB_NAMES.forEach(function(n){
-    document.getElementById("tab-"+n).classList.toggle("hidden", n!==name);
+/* ============ view router ============ */
+var VIEWS = ["landing","course","roast","assess"];
+var roastReturn = "landing";   // where "‹ Back" from the roast view goes
+function showView(name){
+  VIEWS.forEach(function(n){
+    document.getElementById("view-"+n).classList.toggle("show", n===name);
   });
-  document.getElementById("fab").classList.toggle("hidden", name!=="roasts");
+  document.getElementById("fab").classList.toggle("hidden", name!=="roast");
   window.scrollTo(0,0);
+}
+function openRoastList(from){
+  roastReturn = from || "landing";
+  renderList();
+  showView("roast");
+}
+/* landing buttons */
+document.getElementById("startCourse").addEventListener("click", function(){
+  showView("course"); renderCourse(0);
 });
+document.getElementById("goRoast").addEventListener("click", function(){ openRoastList("landing"); });
+document.getElementById("goAssess").addEventListener("click", function(){ showView("assess"); renderAssess(); });
+document.getElementById("courseExit").addEventListener("click", function(){ showView("landing"); });
+document.getElementById("roastBack").addEventListener("click", function(){
+  if(roastReturn==="course"){ showView("course"); renderCourse(0); } else { showView("landing"); }
+});
+document.getElementById("assessBack").addEventListener("click", function(){ showView("landing"); });
+document.getElementById("coursePrev").addEventListener("click", function(){ courseGo(-1); });
+document.getElementById("courseNext").addEventListener("click", function(){ courseGo(1); });
 
 /* ============ identity ============ */
 (function(){
@@ -592,7 +693,7 @@ function roastCard(r){
     openRoastId = open ? null : r.id;
     renderList();
   }},[
-    el("span",{class:"day-badge"+(r.day===2?" d2":""), text:"Day "+r.day}),
+    el("span",{class:"day-badge", text:"Roast"}),
     el("span",{class:"roast-label", text:r.label || "Untitled"}),
     agtron ? el("span",{class:"agtron-mini", text:agtron}) : null,
     el("span",{class:"chev", html:"&#9654;"})
@@ -613,27 +714,23 @@ function roastBody(r){
 
   /* --- label editor --- */
   var fLabel = el("div",{class:"field"});
-  fLabel.appendChild(el("label",{text:"Label"}));
+  fLabel.appendChild(el("label",{text:"Coffee / batch label"}));
   var labelInput = el("input",{type:"text"});
   bind(labelInput, r, "label");
   labelInput.addEventListener("input", function(){ /* update header live */ });
   fLabel.appendChild(labelInput);
   frag.appendChild(fLabel);
 
-  /* --- Prediction (day 2 only, at top) --- */
-  if(r.day === 2){
-    frag.appendChild(el("h3",{class:"section-title",text:"Predict"}));
-    var pf = el("div",{class:"field"});
-    pf.appendChild(el("label",{text:"Before you roast — what will it taste like?"}));
-    var pt = el("textarea",{placeholder:"Your prediction…"});
-    bind(pt, r, "prediction");
-    pf.appendChild(pt);
-    pf.appendChild(el("div",{class:"help",text:"Lock in your guess now, then compare it to the cupping below."}));
-    frag.appendChild(pf);
-  }
-
   /* ---------- PLAN ---------- */
   frag.appendChild(el("h3",{class:"section-title",text:"Roast Plan"}));
+
+  var cupF = el("div",{class:"field"});
+  cupF.appendChild(el("label",{text:"Cup target — what do we want in the cup?"}));
+  var cupT = el("textarea",{placeholder:"e.g. sweet, round, gentle acidity…"});
+  bind(cupT, r.plan, "cupTarget");
+  cupF.appendChild(cupT);
+  cupF.appendChild(el("div",{class:"help",text:"A roast plan begins with a target. You'll compare the finished cup against this."}));
+  frag.appendChild(cupF);
 
   frag.appendChild(planField("Charge Temp", r.plan, "chargeTemp", true, "°C",
     "Sets your starting aggression — how hard the roast begins."));
@@ -653,9 +750,17 @@ function roastBody(r){
   frag.appendChild(totF);
 
   frag.appendChild(planField("End Temperature", r.plan, "endTemp", true, "°C",
-    "Drop temperature — tied directly to final color."));
+    "Drop temperature — where you expect the roast to finish."));
   frag.appendChild(planField("Agtron Target", r.plan, "agtronTarget", true, "",
-    "The number you roast toward. The class fills in the real target bands."));
+    "Where do we want the roast color to finish? The class fills in the target bands."));
+
+  var cpF = el("div",{class:"field"});
+  cpF.appendChild(el("label",{text:"Control plan — how do we plan to use the machine controls?"}));
+  var cpT = el("textarea",{placeholder:"Energy, airflow, drum — your intended moves…"});
+  bind(cpT, r.plan, "controlPlan");
+  cpF.appendChild(cpT);
+  cpF.appendChild(el("div",{class:"help",text:"Follow the plan. Respond to the coffee."}));
+  frag.appendChild(cpF);
 
   /* ---------- LIVE LOG ---------- */
   frag.appendChild(el("h3",{class:"section-title",text:"Live Roast Log"}));
@@ -675,22 +780,28 @@ function roastBody(r){
   airF.appendChild(airIn);
   frag.appendChild(airF);
 
-  var agF = el("div",{class:"field"});
-  agF.appendChild(el("label",{text:"Agtron — actual"}));
-  var agIn = el("input",{type:"number",inputmode:"decimal",placeholder:"measured"});
-  bind(agIn, r.log, "agtronActual", true);
-  agF.appendChild(agIn);
-  frag.appendChild(agF);
+  /* ---------- MEASURE ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Measure — before you taste"}));
+  var mGrid = el("div",{class:"grid3"});
+  mGrid.appendChild(miniNumField("Green wt (g)", r.log, "weightGreen"));
+  mGrid.appendChild(miniNumField("Roasted wt (g)", r.log, "weightRoasted"));
+  mGrid.appendChild(miniNumField("Agtron actual", r.log, "agtronActual"));
+  frag.appendChild(mGrid);
+  var wlLine = el("div",{class:"help",style:"margin-top:6px;text-align:center;"});
+  function paintWL(){
+    var g=r.log.weightGreen, ro=r.log.weightRoasted;
+    wlLine.textContent = (g&&ro&&g>0) ? ("Weight loss: "+(((g-ro)/g)*100).toFixed(1)+"%") : "Weight loss = (green − roasted) ÷ green × 100";
+  }
+  mGrid.addEventListener("input", paintWL); paintWL();
+  frag.appendChild(wlLine);
 
   /* ---------- CUPPING ---------- */
-  frag.appendChild(el("h3",{class:"section-title",text:"Cupping Notes"}));
+  frag.appendChild(el("h3",{class:"section-title",text:"Cup What You Made"}));
   frag.appendChild(cupping(r));
 
-  /* ---------- PREDICT vs ACTUAL (day 2) ---------- */
-  if(r.day === 2){
-    frag.appendChild(el("h3",{class:"section-title",text:"Predict → Actual"}));
-    frag.appendChild(predictActual(r));
-  }
+  /* ---------- TARGET vs RESULT → ADJUST ---------- */
+  frag.appendChild(el("h3",{class:"section-title",text:"Evaluate — Target vs. Result"}));
+  frag.appendChild(evaluateSection(r));
 
   /* ---------- delete ---------- */
   var delWrap = el("div",{style:"margin-top:22px;"});
@@ -721,6 +832,14 @@ function miniField(label, obj, key, tone){
   f.appendChild(lab);
   var i = el("input",{type:"text",placeholder:"mm:ss",style:"padding:9px;min-height:44px;text-align:center;background:var(--"+tone+");"});
   bind(i, obj, key);
+  f.appendChild(i);
+  return f;
+}
+function miniNumField(label, obj, key){
+  var f = el("div",{class:"field",style:"margin:0;"});
+  f.appendChild(el("label",{text:label,style:"font-size:.8rem;"}));
+  var i = el("input",{type:"number",inputmode:"decimal",style:"padding:9px;min-height:44px;text-align:center;"});
+  bind(i, obj, key, true);
   f.appendChild(i);
   return f;
 }
@@ -765,7 +884,7 @@ function liveLog(r){
   var dtrStat = el("div",{class:"stat"});
   var dtrV = el("div",{class:"v",text:"—"});
   dtrStat.appendChild(dtrV);
-  dtrStat.appendChild(el("div",{class:"k",text:"DTR (dev ratio)"}));
+  dtrStat.appendChild(el("div",{class:"k",text:"Phase C (FC → Drop)"}));
   stats.appendChild(totalStat);
   stats.appendChild(dtrStat);
   wrap.appendChild(stats);
@@ -783,9 +902,8 @@ function liveLog(r){
     }else{
       totV.textContent = r.log.chargeStamp ? "running" : "—";
     }
-    if(fc!=null && drop!=null && drop>0){
-      var dtr = ((drop - fc) / drop) * 100;
-      dtrV.textContent = dtr.toFixed(1) + "%";
+    if(fc!=null && drop!=null && drop>fc){
+      dtrV.textContent = fmtClock((drop - fc)*1000);
     }else{
       dtrV.textContent = "—";
     }
@@ -802,9 +920,9 @@ function liveLog(r){
       return s;
     }
     var parts = [], p;
-    p = seg("Drying", 0, ct, L.DE);              if(p) parts.push(p);
-    p = seg("Maillard", L.DE.time, L.DE.temp, L.FC);   if(p) parts.push(p);
-    p = seg("Dev", L.FC.time, L.FC.temp, L.drop);      if(p) parts.push(p);
+    p = seg("Phase A", 0, ct, L.CC);                   if(p) parts.push(p);
+    p = seg("Phase B", L.CC.time, L.CC.temp, L.FC);    if(p) parts.push(p);
+    p = seg("Phase C", L.FC.time, L.FC.temp, L.drop);  if(p) parts.push(p);
     rorLine.textContent = parts.join("   ·   ");
   }
   refreshStats();
@@ -822,7 +940,7 @@ function liveLog(r){
 }
 
 function allStamped(r){
-  return r.log.TP.time!=null && r.log.DE.time!=null && r.log.FC.time!=null && r.log.drop.time!=null;
+  return r.log.TP.time!=null && r.log.CC.time!=null && r.log.FC.time!=null && r.log.drop.time!=null;
 }
 
 function stampMilestone(r, key){
@@ -845,7 +963,7 @@ function stampMilestone(r, key){
   if(slot.time == null){
     slot.time = Math.max(0, Math.round((Date.now() - r.log.chargeStamp)/1000));
   }
-  var names = {TP:"Turning Point (TP)", DE:"Dry End (DE)", FC:"First Crack", drop:"Drop"};
+  var names = {TP:"Turning Point (TP)", CC:"Color Change", FC:"First Crack", drop:"Drop"};
   promptTemp(r, names[key]+" temp  ·  "+fmtClock(slot.time*1000), function(t){
     slot.temp = t;
     save(); renderCurrentRoast();
@@ -858,43 +976,47 @@ function promptTemp(r, title, cb, current){
   openTempModal(title, current, cb);
 }
 
-/* ============ cupping ============ */
-function cupping(r){
-  var wrap = el("div");
-  [["Aroma","aroma"],["Acidity","acidity"],["Sweetness","sweetness"],["Body","body"],["Flavor","flavor"]].forEach(function(p){
-    var f = el("div",{class:"field"});
-    f.appendChild(el("label",{text:p[0]}));
-    var i = el("input",{type:"text"});
-    bind(i, r.cupping, p[1]);
-    f.appendChild(i);
-    wrap.appendChild(f);
-  });
-
-  wrap.appendChild(el("div",{class:"subhead",text:"Sweetness stage (Jake Hu scale)"}));
+/* ============ cupping — 1–5 intensity scales (matches the Participant Guide) ============ */
+function scale5(r, key, label){
+  var wrap = el("div",{style:"margin-bottom:10px;"});
+  wrap.appendChild(el("div",{class:"subhead",style:"margin-top:0;",text:label}));
   var bar = el("div",{class:"sweet-bar"});
-  var labelOut = el("div",{class:"sweet-label"});
   function paint(){
     Array.prototype.forEach.call(bar.children, function(seg){
-      seg.classList.toggle("sel", parseInt(seg.dataset.n,10) === r.cupping.sweetnessStage);
+      seg.classList.toggle("sel", parseInt(seg.dataset.n,10) === r.cupping[key]);
     });
-    var sel = SWEET.filter(function(s){return s.n===r.cupping.sweetnessStage;})[0];
-    labelOut.textContent = sel ? (sel.n + " · " + sel.label) : "Tap a stage";
   }
-  SWEET.forEach(function(s){
-    var seg = el("button",{class:"sweet-seg","data-n":s.n,style:"background:"+s.c+";"+(s.n>=6?"color:#fff;":"")});
+  SCALE5.forEach(function(s){
+    var seg = el("button",{class:"sweet-seg","data-n":s.n,style:"background:"+s.c+";"+(s.n===5?"color:#fff;":"")});
     seg.appendChild(el("span",{class:"num",text:s.n}));
-    seg.appendChild(el("span",{text:s.label}));
     seg.addEventListener("click", function(){
-      r.cupping.sweetnessStage = (r.cupping.sweetnessStage===s.n) ? null : s.n;
+      r.cupping[key] = (r.cupping[key]===s.n) ? null : s.n;
       paint(); save();
     });
     bar.appendChild(seg);
   });
   wrap.appendChild(bar);
-  wrap.appendChild(labelOut);
   paint();
+  return wrap;
+}
 
-  var nf = el("div",{class:"field",style:"margin-top:14px;"});
+function cupping(r){
+  var wrap = el("div");
+  wrap.appendChild(el("div",{class:"help",style:"margin-bottom:10px;",text:"Rate intensity 1 (low) – 5 (high), then describe in your own words. Describe first — explain later."}));
+  SENSES.forEach(function(p){ wrap.appendChild(scale5(r, p[0], p[1])); });
+
+  [["Finish","finish","e.g. short & clean, lingering…"],
+   ["Flavor character","flavor","what does it taste like?"],
+   ["Overall impression","overall","one line"]].forEach(function(p){
+    var f = el("div",{class:"field"});
+    f.appendChild(el("label",{text:p[0]}));
+    var i = el("input",{type:"text",placeholder:p[2]});
+    bind(i, r.cupping, p[1]);
+    f.appendChild(i);
+    wrap.appendChild(f);
+  });
+
+  var nf = el("div",{class:"field",style:"margin-top:8px;"});
   nf.appendChild(el("label",{text:"Notes"}));
   var nt = el("textarea",{placeholder:"Anything else you noticed…"});
   bind(nt, r.cupping, "notes");
@@ -904,35 +1026,39 @@ function cupping(r){
   return wrap;
 }
 
-/* ============ predict vs actual ============ */
-function predictActual(r){
-  var c = r.cupping;
-  var actualBits = [];
-  [["Aroma",c.aroma],["Acidity",c.acidity],["Sweetness",c.sweetness],["Body",c.body],["Flavor",c.flavor]].forEach(function(p){
-    if(p[1]) actualBits.push(p[0]+": "+p[1]);
-  });
-  var sel = SWEET.filter(function(s){return s.n===c.sweetnessStage;})[0];
-  if(sel) actualBits.push("Sweetness stage: "+sel.n+" "+sel.label);
-  if(c.notes) actualBits.push(c.notes);
+/* ============ evaluate — target vs result → adjust (Module 11) ============ */
+function evaluateSection(r){
+  var w = el("div");
 
   var grid = el("div",{class:"pa-grid"});
-  var pred = el("div",{class:"pa-col pred"});
-  pred.appendChild(el("h4",{text:"You predicted"}));
-  pred.appendChild(r.prediction
-    ? el("p",{text:r.prediction})
-    : el("p",{class:"empty",text:"No prediction yet."}));
-  var act = el("div",{class:"pa-col act"});
-  act.appendChild(el("h4",{text:"You actually tasted"}));
-  act.appendChild(actualBits.length
-    ? el("p",{text:actualBits.join("\n")})
-    : el("p",{class:"empty",text:"Fill in the cupping notes above."}));
-  grid.appendChild(pred);
-  grid.appendChild(act);
+  var tgt = el("div",{class:"pa-col pred"});
+  tgt.appendChild(el("h4",{text:"Target — what did we want?"}));
+  tgt.appendChild(r.plan.cupTarget
+    ? el("p",{text:r.plan.cupTarget})
+    : el("p",{class:"empty",text:"No cup target yet — write one in the Roast Plan above."}));
+  var res = el("div",{class:"pa-col act"});
+  res.appendChild(el("h4",{text:"Result — what did we get?"}));
+  var resT = el("textarea",{placeholder:"Describe the finished cup…",style:"width:100%;border:none;background:transparent;font:inherit;resize:vertical;min-height:64px;"});
+  bind(resT, r.evaluate, "result");
+  res.appendChild(resT);
+  grid.appendChild(tgt);
+  grid.appendChild(res);
+  w.appendChild(grid);
 
-  var reflect = el("p",{style:"font-size:.82rem;color:var(--ink-soft);margin-top:10px;text-align:center;",
-    text:"No score — just notice the gap and what you'd change next time."});
+  var dfF = el("div",{class:"field",style:"margin-top:12px;"});
+  dfF.appendChild(el("label",{text:"Compare — what was different between the target and the result?"}));
+  var dfT = el("textarea",{placeholder:"Where did it land, where did it drift…"});
+  bind(dfT, r.evaluate, "different");
+  dfF.appendChild(dfT);
+  w.appendChild(dfF);
 
-  var w = el("div"); w.appendChild(grid); w.appendChild(reflect);
+  var adF = el("div",{class:"field"});
+  adF.appendChild(el("label",{text:"Adjust — what is ONE thing you would change next time? Why?"}));
+  var adT = el("textarea",{placeholder:"Change one thing. Roast again. Compare the result."});
+  bind(adT, r.evaluate, "adjust");
+  adF.appendChild(adT);
+  w.appendChild(adF);
+
   return w;
 }
 
@@ -997,31 +1123,23 @@ document.getElementById("confirmNo").addEventListener("click", function(){
 });
 
 /* ============ new roast modal ============ */
-var newDay = 1;
 document.getElementById("fab").addEventListener("click", openNew);
 function openNew(){
-  newDay = 1;
-  document.querySelectorAll("#daySeg button").forEach(function(b){ b.classList.toggle("on", b.dataset.day==="1"); });
   document.getElementById("newLabel").value = "";
   document.getElementById("newModal").classList.remove("hidden");
   setTimeout(function(){ document.getElementById("newLabel").focus(); },50);
 }
-document.getElementById("daySeg").addEventListener("click", function(e){
-  var b = e.target.closest("button"); if(!b) return;
-  newDay = parseInt(b.dataset.day,10);
-  document.querySelectorAll("#daySeg button").forEach(function(x){ x.classList.toggle("on", x===b); });
-});
 document.getElementById("newCancel").addEventListener("click", function(){
   document.getElementById("newModal").classList.add("hidden");
 });
 document.getElementById("newCreate").addEventListener("click", function(){
   var label = document.getElementById("newLabel").value.trim();
-  var r = newRoast(newDay, label);
+  var r = newRoast(label);
   state.roasts.push(r);
   openRoastId = r.id;
   save();
   document.getElementById("newModal").classList.add("hidden");
-  document.querySelector('.tab[data-tab="roasts"]').click();
+  showView("roast");
   renderList();
   window.scrollTo({top:0,behavior:"smooth"});
 });
@@ -1035,26 +1153,34 @@ document.getElementById("newCreate").addEventListener("click", function(){
 /* ============ export ============ */
 function summaryText(){
   var s = state.student;
-  var lines = ["ROAST JOURNAL","Student: "+(s.name||"—")+"   Team: "+(s.team||"—"),""];
+  var lines = ["ROAST JOURNAL — ROASTING FUNDAMENTALS LEVEL 1","Student: "+(s.name||"—")+"   Team: "+(s.team||"—"),""];
   state.roasts.slice().sort(function(a,b){return (a.createdAt||"").localeCompare(b.createdAt||"");}).forEach(function(r,i){
-    lines.push("── Roast "+(i+1)+"  ·  Day "+r.day+"  ·  "+(r.label||"Untitled")+" ──");
+    lines.push("── Roast "+(i+1)+"  ·  "+(r.label||"Untitled")+" ──");
+    if(r.plan.cupTarget) lines.push("Cup target: "+r.plan.cupTarget);
     lines.push("Plan: charge "+n(r.plan.chargeTemp)+"°  end "+n(r.plan.endTemp)+"°  total "+n(r.plan.totalTime_target)+"  Agtron "+n(r.plan.agtronTarget));
-    lines.push("      phases A "+n(r.plan.phaseA_target)+" / B "+n(r.plan.phaseB_target)+" / C "+n(r.plan.phaseC_target));
+    lines.push("      Phase A "+n(r.plan.phaseA_target)+" / Phase B "+n(r.plan.phaseB_target)+" / Phase C "+n(r.plan.phaseC_target));
+    if(r.plan.controlPlan) lines.push("      control plan: "+r.plan.controlPlan);
     var log = r.log;
-    lines.push("Log:  charge "+n(log.chargeTemp)+"°  TP "+ms(log.TP)+"  DE "+ms(log.DE)+"  FC "+ms(log.FC)+"  Drop "+ms(log.drop));
-    var dtr = "";
-    if(log.FC.time!=null && log.drop.time!=null && log.drop.time>0)
-      dtr = ((log.drop.time-log.FC.time)/log.drop.time*100).toFixed(1)+"%";
-    lines.push("      total "+(log.drop.time!=null?fmtClock(log.drop.time*1000):"—")+"  DTR "+(dtr||"—")+"  Agtron actual "+n(log.agtronActual));
+    lines.push("Log:  charge "+n(log.chargeTemp)+"°  TP "+ms(log.TP)+"  CC "+ms(log.CC)+"  FC "+ms(log.FC)+"  Drop "+ms(log.drop));
+    var pc = "";
+    if(log.FC.time!=null && log.drop.time!=null && log.drop.time>log.FC.time)
+      pc = fmtClock((log.drop.time-log.FC.time)*1000);
+    var wl = "";
+    if(log.weightGreen && log.weightRoasted && log.weightGreen>0)
+      wl = (((log.weightGreen-log.weightRoasted)/log.weightGreen)*100).toFixed(1)+"%";
+    lines.push("      total "+(log.drop.time!=null?fmtClock(log.drop.time*1000):"—")+"  Phase C "+(pc||"—")+"  weight loss "+(wl||"—")+"  Agtron actual "+n(log.agtronActual));
     if(log.energySettings) lines.push("      energy: "+log.energySettings);
     if(log.airSettings) lines.push("      air: "+log.airSettings);
-    if(r.day===2 && r.prediction) lines.push("Predicted: "+r.prediction);
     var c=r.cupping;
     var cup=[];
-    ["aroma","acidity","sweetness","body","flavor"].forEach(function(k){ if(c[k]) cup.push(k+" "+c[k]); });
-    if(c.sweetnessStage) cup.push("stage "+c.sweetnessStage+" "+(SWEET[c.sweetnessStage-1]||{}).label);
+    SENSES.forEach(function(p){ if(c[p[0]]!=null) cup.push(p[1]+" "+c[p[0]]+"/5"); });
+    [["finish","finish"],["flavor","flavor"],["overall","overall"]].forEach(function(k){ if(c[k[0]]) cup.push(k[1]+" "+c[k[0]]); });
     if(cup.length) lines.push("Cupping: "+cup.join(", "));
     if(c.notes) lines.push("      notes: "+c.notes);
+    var ev=r.evaluate||{};
+    if(ev.result) lines.push("Result: "+ev.result);
+    if(ev.different) lines.push("Different from target: "+ev.different);
+    if(ev.adjust) lines.push("Adjust next: "+ev.adjust);
     lines.push("");
   });
   var cn = state.course || {slideNotes:{},general:""};
@@ -1085,22 +1211,31 @@ function exportHtmlDoc(){
     "@page{size:A4;margin:16mm;}";
   var body = "";
   state.roasts.slice().sort(function(a,b){return (a.createdAt||"").localeCompare(b.createdAt||"");}).forEach(function(r){
-    var log=r.log,c=r.cupping;
-    var dtr="—";
-    if(log.FC.time!=null&&log.drop.time!=null&&log.drop.time>0) dtr=((log.drop.time-log.FC.time)/log.drop.time*100).toFixed(1)+"%";
+    var log=r.log,c=r.cupping,ev=r.evaluate||{};
+    var pc="—";
+    if(log.FC.time!=null&&log.drop.time!=null&&log.drop.time>log.FC.time) pc=fmtClock((log.drop.time-log.FC.time)*1000);
+    var wl="—";
+    if(log.weightGreen&&log.weightRoasted&&log.weightGreen>0) wl=(((log.weightGreen-log.weightRoasted)/log.weightGreen)*100).toFixed(1)+"%";
     function ms(m){return m&&m.time!=null?fmtClock(m.time*1000)+(m.temp!=null?" @ "+m.temp+"°":""):"—";}
     function n(v){return v==null||v===""?"—":esc(v);}
-    body += '<div class="r"><span class="badge'+(r.day===2?' d2':'')+'">Day '+r.day+'</span> <strong style="font-size:18px;">'+esc(r.label||"Untitled")+'</strong>';
+    body += '<div class="r"><span class="badge">Roast</span> <strong style="font-size:18px;">'+esc(r.label||"Untitled")+'</strong>';
+    if(r.plan.cupTarget) body += '<p style="font-size:14px;margin:6px 0 0;"><strong>Cup target:</strong> '+esc(r.plan.cupTarget)+'</p>';
     body += '<h3>Plan</h3><table><tr><th>Charge</th><th>Phase A</th><th>Phase B</th><th>Phase C</th><th>Total</th><th>End</th><th>Agtron</th></tr>'+
       '<tr><td>'+n(r.plan.chargeTemp)+'</td><td>'+n(r.plan.phaseA_target)+'</td><td>'+n(r.plan.phaseB_target)+'</td><td>'+n(r.plan.phaseC_target)+'</td><td>'+n(r.plan.totalTime_target)+'</td><td>'+n(r.plan.endTemp)+'</td><td>'+n(r.plan.agtronTarget)+'</td></tr></table>';
-    body += '<h3>Log</h3><table><tr><th>Charge</th><th>TP</th><th>DE</th><th>FC</th><th>Drop</th><th>DTR</th><th>Agtron</th></tr>'+
-      '<tr><td>'+(log.chargeTemp!=null?log.chargeTemp+"°":"—")+'</td><td>'+ms(log.TP)+'</td><td>'+ms(log.DE)+'</td><td>'+ms(log.FC)+'</td><td>'+ms(log.drop)+'</td><td>'+dtr+'</td><td>'+n(log.agtronActual)+'</td></tr></table>';
+    if(r.plan.controlPlan) body += '<p style="font-size:13px;margin-top:6px;"><strong>Control plan:</strong> '+esc(r.plan.controlPlan)+'</p>';
+    body += '<h3>Log</h3><table><tr><th>Charge</th><th>TP</th><th>Color Change</th><th>First Crack</th><th>Drop</th><th>Phase C</th><th>Wt loss</th><th>Agtron</th></tr>'+
+      '<tr><td>'+(log.chargeTemp!=null?log.chargeTemp+"°":"—")+'</td><td>'+ms(log.TP)+'</td><td>'+ms(log.CC)+'</td><td>'+ms(log.FC)+'</td><td>'+ms(log.drop)+'</td><td>'+pc+'</td><td>'+wl+'</td><td>'+n(log.agtronActual)+'</td></tr></table>';
     if(log.energySettings||log.airSettings)
       body += '<p style="font-size:13px;margin-top:6px;">'+(log.energySettings?'<strong>Energy:</strong> '+esc(log.energySettings)+'<br>':'')+(log.airSettings?'<strong>Air:</strong> '+esc(log.airSettings):'')+'</p>';
-    var cup=[];["aroma","acidity","sweetness","body","flavor"].forEach(function(k){if(c[k])cup.push('<strong>'+k+':</strong> '+esc(c[k]));});
-    if(c.sweetnessStage)cup.push('<strong>stage:</strong> '+c.sweetnessStage+' '+(SWEET[c.sweetnessStage-1]||{}).label);
+    var cup=[];
+    SENSES.forEach(function(p){ if(c[p[0]]!=null)cup.push('<strong>'+p[1]+':</strong> '+c[p[0]]+'/5'); });
+    [["finish","Finish"],["flavor","Flavor"],["overall","Overall"]].forEach(function(p){ if(c[p[0]])cup.push('<strong>'+p[1]+':</strong> '+esc(c[p[0]])); });
     if(cup.length||c.notes) body += '<h3>Cupping</h3><p style="font-size:14px;">'+cup.join(" &nbsp;·&nbsp; ")+(c.notes?'<br>'+esc(c.notes):'')+'</p>';
-    if(r.day===2) body += '<div class="pa"><div><strong>Predicted</strong><br>'+(r.prediction?esc(r.prediction):'<em>—</em>')+'</div><div><strong>Actual</strong><br>'+(cup.length?cup.join(", "):'<em>—</em>')+'</div></div>';
+    if(r.plan.cupTarget||ev.result||ev.different||ev.adjust){
+      body += '<div class="pa"><div><strong>Target</strong><br>'+(r.plan.cupTarget?esc(r.plan.cupTarget):'<em>—</em>')+'</div><div><strong>Result</strong><br>'+(ev.result?esc(ev.result):'<em>—</em>')+'</div></div>';
+      if(ev.different) body += '<p style="font-size:13px;margin-top:6px;"><strong>Different:</strong> '+esc(ev.different)+'</p>';
+      if(ev.adjust) body += '<p style="font-size:13px;margin-top:4px;"><strong>Adjust next:</strong> '+esc(ev.adjust)+'</p>';
+    }
     body += '</div>';
   });
   var cn = state.course || {slideNotes:{},general:""};
@@ -1154,12 +1289,18 @@ document.getElementById("importFile").addEventListener("change", function(e){
       var d = JSON.parse(reader.result);
       if(!d.roasts) throw new Error("Not a journal file");
       confirmDialog("Import backup?", "This replaces everything currently on this device.", function(){
-        state = { student:d.student||{name:"",team:""}, roasts:Array.isArray(d.roasts)?d.roasts:[] };
+        state = { student:d.student||{name:"",team:""}, roasts:Array.isArray(d.roasts)?d.roasts:[],
+                  course:(d.course&&typeof d.course==="object")?d.course:{slideNotes:{},general:""} };
+        if(!state.course.slideNotes||typeof state.course.slideNotes!=="object") state.course.slideNotes={};
+        if(typeof state.course.general!=="string") state.course.general="";
+        state.roasts.forEach(migrateRoast);
         save();
         document.getElementById("studentName").value = state.student.name||"";
         document.getElementById("studentTeam").value = state.student.team||"";
         openRoastId=null; renderList();
-        document.querySelector('.tab[data-tab="roasts"]').click();
+        document.getElementById("studentName").value = state.student.name||"";
+        document.getElementById("studentTeam").value = state.student.team||"";
+        showView("roast");
       });
     }catch(err){
       alert("Could not read that file — is it a Roast Journal backup?");
@@ -1176,291 +1317,319 @@ document.getElementById("resetAll").addEventListener("click", function(){
     document.getElementById("studentName").value="";
     document.getElementById("studentTeam").value="";
     openRoastId=null; renderList();
-    document.querySelector('.tab[data-tab="roasts"]').click();
+    showView("landing");
   });
 });
 
 /* ============ course content (one entry per deck slide, class order) ============ */
 var AGENDA = [
-  {day:"Day 1", title:"Understanding & Executing the Roast", slots:[
-    ["AM","Cup & discuss, then the theory: green bean, heat, controls, phases, curve, targets."],
-    ["PM","Build a plan, start the machine, roast to target — Light, Medium, Dark."]
+  {day:"Part 1", title:"Understand", slots:[
+    ["10:00","Welcome & course overview"],
+    ["10:15","Green coffee · heat · controls · reading the roast"],
+    ["11:45","Break · 15 min"],
+    ["12:00","The ABC framework · what changes during roasting"]
   ]},
-  {day:"Day 2", title:"Tasting & Refining the Roast", slots:[
-    ["AM","Cup yesterday's roasts, work the cupping cross, cover sweetness, roast level, defects."],
-    ["PM","Pick a variable, predict the cup, roast it, and taste it — same day."]
+  {day:"Part 2", title:"Taste", slots:[
+    ["12:40","The Cupping Cross — taste · compare · reveal · connect"],
+    ["13:30","Lunch · 45 min"]
+  ]},
+  {day:"Part 3", title:"Plan", slots:[
+    ["14:15","Roast color & Agtron · build a roast plan"]
+  ]},
+  {day:"Part 4", title:"Roast", slots:[
+    ["15:10","Instructor demonstration roast"],
+    ["15:55","Break · 15 min"],
+    ["16:10","Team roasts — execute your plan"]
+  ]},
+  {day:"Part 5", title:"Evaluate & Adjust", slots:[
+    ["17:10","Measure · cup what you made · compare with target"],
+    ["17:55","What would you change · wrap & Q&A"]
   ]}
 ];
 
 var COURSE = [
-  {session:"Day 1 · Morning", sub:"Theory", slides:[
-    {id:"d1-what", title:"What is roasting?", body:
-      '<p>Applying heat to green beans to drive the reactions that turn a raw seed into coffee.</p>'+
-      '<p>The degree of roast decides <b>acidity, body, fragrance, sweetness</b> and <b>flavor</b>.</p>'+
-      '<p class="lead">Every decision — timing, temperature, airflow — shows up in the cup.</p>'},
-    {id:"d1-green", title:"Understanding the green bean", body:
-      '<p class="lead">What you start with sets the ceiling for what you can achieve. Read these six before every roast:</p><ul>'+
-      '<li><b>01 · Density</b></li><li><b>02 · Moisture</b></li><li><b>03 · Size</b></li>'+
-      '<li><b>04 · Water activity</b></li><li><b>05 · Visual cues</b></li><li><b>06 · Processing method</b></li></ul>'},
-    {id:"d1-heat", title:"Three ways heat moves", body:'<ul>'+
-      '<li><b>Conduction</b> — contact: heat into beans touching the hot drum.</li>'+
-      '<li><b>Convection</b> — airflow: hot air through and around the bean mass.</li>'+
-      '<li><b>Radiative</b> — glow: energy from hot drum walls and elements.</li>'+
-      '</ul><p>A drum roaster uses all three at once. Your controls change the balance.</p>'},
-    {id:"d1-controls", title:"Three controls", body:
-      '<p class="lead">Energy and Air do the work. Drum speed sets the stage.</p><ul>'+
-      '<li><b>Gas · Energy</b> — total heat input. The accelerator pedal.</li>'+
-      '<li><b>Fan · Air</b> — rate of heat delivery through the beans. Beginners underestimate it.</li>'+
-      '<li><b>Drum speed</b> — conduction/convection balance. Set before charge, held steady.</li>'+
-      '</ul><p><b>Air before heat</b> — always.</p>'},
-    {id:"d1-spectrum", title:"From green to roasted", body:
-      '<p>Green → <b>Drying (A)</b> → <b>Maillard (B)</b> → <b>Development (C)</b> → 2nd crack → Dark.</p>'+
-      '<p class="lead">You choose where to stop.</p>'},
-    {id:"d1-phases", title:"Three phases, three jobs", body:'<ul>'+
-      '<li><span class="tag">A</span><b>Drying</b> · TP → Yellowing<br>Moisture out of the core, builds body. Longer/hotter = fuller body. <span class="warn">Rush it → grainy, thin, sour.</span></li>'+
-      '<li><span class="tag b">B</span><b>Maillard</b> · Yellowing → First Crack<br>Browning &amp; flavor; acidity goes simple → complex. Longer = softer, rounder. <span class="warn">Too much air → flat, hollow.</span></li>'+
-      '<li><span class="tag c">C</span><b>Development</b> · First Crack → Drop<br>Sweetness &amp; intensity finalize. More = less origin. <span class="warn">Push too far → flat, roasty.</span></li>'+
-      '</ul>'},
-    {id:"d1-chem", title:"Chemical reactions in roasting", body:'<ul>'+
-      '<li><span class="tag">A</span><b>Enzymatic</b> — origin flavors: fruity, floral, herby. The farmer\'s contribution.</li>'+
-      '<li><span class="tag b">B</span><b>Maillard / Caramelization</b> — sugars &amp; amino acids react; sweetness, body, balance built.</li>'+
-      '<li><span class="tag c">C</span><b>Dry distillation</b> — flavor breaks down; carbon, spice, chocolate emerge; origin fades.</li>'+
-      '</ul><p>Yellowing → First Crack → Second Crack: each threshold shifts which reactions lead.</p>'},
-    {id:"d1-curve", title:"Reading the curve", body:'<ul>'+
-      '<li><b>TP</b> — Turning Point: bean temp bottoms out, starts to climb.</li>'+
-      '<li><b>DE</b> — Dry End (yellowing): moisture largely gone; browning begins.</li>'+
-      '<li><b>ROR</b> — Rate of Rise: how fast bean temp is climbing.</li>'+
-      '<li><b>1C</b> — First Crack: audible; development window opens.</li>'+
-      '<li><b>DTR</b> — Development Time Ratio: % of the roast after 1C.</li>'+
-      '<li><b>Drop</b> — end of roast; beans into the cooling tray.</li></ul>'},
-    {id:"d1-agtron", title:"Roasting to a number (Agtron)", body:
-      '<p>Agtron measures roast color objectively — a <b>higher number = a lighter roast</b>.</p>'+
-      '<p>It turns "looks about right" into a target you can repeat. Light / Medium / Dark bands are set during course R&amp;D — fill them into each roast\'s plan.</p>'}
+  {session:"Part 1 · Understand", sub:"Modules 1–5", slides:[
+    {id:"m1-green", title:"Module 1 · Green Coffee", body:
+      '<p class="lead">Before deciding how to roast a coffee, first understand what you are roasting. Green coffee information helps us form an initial roast plan — it does not automatically give us a recipe.</p><ul>'+
+      '<li><b>Moisture Content</b> — how much of the coffee\'s mass is water. One factor that may influence how it responds to heat.</li>'+
+      '<li><b>Water Activity</b> — the state and availability of that water.</li>'+
+      '<li><b>Density</b> — mass ÷ volume. Different densities may respond differently during roasting.</li>'+
+      '<li><b>Bean Size</b> — dimensions and consistency; consistency may influence roast uniformity.</li>'+
+      '<li><b>Processing</b> — washed, natural, honey, experimental. Useful context, not one correct roast approach.</li>'+
+      '</ul><p><b>Understand the coffee before you roast it.</b></p>'},
+    {id:"m2-heat", title:"Module 2 · Heat and the Roaster", body:
+      '<p class="lead">Roasting transfers energy into coffee. The coffee responds by changing physically and chemically.</p><ul>'+
+      '<li><b>Conduction</b> — heat transfer through direct contact.</li>'+
+      '<li><b>Convection</b> — heat transfer through moving hot air.</li>'+
+      '<li><b>Radiation</b> — energy transfer without direct contact.</li>'+
+      '</ul><p>The three primary controls: <b>Energy input</b> (heating power), <b>Airflow</b> (how air moves through the system), <b>Drum speed</b> (how the coffee moves).</p>'+
+      '<p><b>Control → Response.</b> Change a control, wait, and observe the response.</p>'},
+    {id:"m3-read", title:"Module 3 · Reading the Roast", body:'<ul>'+
+      '<li><b>BT</b> — Bean Temperature: tracks roast progression. A sensor reading, not the exact core temp of every bean.</li>'+
+      '<li><b>ET</b> — Environmental Temperature: information about the roasting environment.</li>'+
+      '<li><b>RoR</b> — Rate of Rise: how quickly a temperature reading is changing.</li>'+
+      '</ul><p>Events: <b>Charge → Turning Point → Color Change → First Crack → Drop</b>.</p>'+
+      '<p class="lead">No single reading tells the whole story — read the signals together.</p>'},
+    {id:"m4-abc", title:"Module 4 · The ABC Framework", body:'<ul>'+
+      '<li><span class="tag">A</span><b>Phase A</b> · Charge → Color Change. The coffee receives energy and begins changing.</li>'+
+      '<li><span class="tag b">B</span><b>Phase B</b> · Color Change → First Crack. Physical and chemical change continues.</li>'+
+      '<li><span class="tag c">C</span><b>Phase C</b> · First Crack → Drop. The coffee keeps changing until the roast ends.</li>'+
+      '</ul><p class="lead">The phases are <b>connected</b> — what happens in one influences the conditions entering the next. Phase duration alone does not tell you everything that happened.</p>'},
+    {id:"m5-changes", title:"Module 5 · What Changes During Roasting?", body:
+      '<p><b>Physical:</b> water loss, mass loss, expansion, color change, structural change, gas release.</p>'+
+      '<p><b>Chemical:</b> heat drives reactions that create and transform aroma and flavor compounds — including Maillard reactions.</p>'+
+      '<p class="lead">Physical and chemical changes happen <b>throughout</b> the roast — not in neat stages, and not one phase = one flavor.</p>'}
   ]},
-  {session:"Day 1 · Afternoon", sub:"Roast to target", slides:[
-    {id:"d1-btetror", title:"Reading the machine — BT · ET · ROR", body:'<ul>'+
-      '<li><b>BT</b> — Bean Temp: the probe in the bean mass. Your primary curve.</li>'+
-      '<li><b>ET</b> — Environment Temp: the air/drum around the beans. Leads BT.</li>'+
-      '<li><b>ROR</b> — slope of BT. Should decline smoothly to the drop.</li>'+
-      '</ul><p>The BT–ET gap tells you whether beans are absorbing or resisting heat.</p>'},
-    {id:"d1-plan", title:"Build a roast plan", body:
-      '<p class="lead">Plan → Roast → Measure → Adjust.</p><ul>'+
-      '<li><b>Charge Temp</b> <em>(set first)</em> — drum temp when beans go in; sets early aggression.</li>'+
-      '<li><b>Phase &amp; Total Time</b> <em>(shape)</em> — how long A, B, C run, and the whole roast.</li>'+
-      '<li><b>End Temperature</b> <em>(land on)</em> — the drop temp that finishes development.</li>'+
-      '<li><b>Agtron Target</b> <em>(verify)</em> — measured color; proves you hit the plan.</li></ul>'},
-    {id:"d1-start", title:"Starting the machine", body:'<ul>'+
-      '<li><b>1 · Drum / Fan on</b> — rotation and airflow together, before any heat.</li>'+
-      '<li><b>2 · Underpressure light</b> — wait for it; the machine confirms airflow first.</li>'+
-      '<li><b>3 · Start burner</b> — energy to level 3+, a stable working flame.</li>'+
-      '<li><b>4 · Warm up 15–30 min</b> — reach a stable, repeatable start temp.</li>'+
-      '</ul><p><b>Air before heat.</b> The machine won\'t let you skip it — and neither should you.</p>'}
+  {session:"Part 2 · Taste", sub:"Module 6", slides:[
+    {id:"m6-cross", title:"Module 6 · The Cupping Cross", body:
+      '<p class="lead">Taste controlled roast comparisons before planning your own roast.</p>'+
+      '<p><b>Taste → Compare → Reveal → Connect.</b></p>'+
+      '<p>Rate each sample 1–5 for acidity, sweetness, bitterness and mouthfeel; describe finish and flavor in your own words. Taste blind — describe what you perceive before learning what changed.</p>'+
+      '<p>Flights: Charge conditions · Phase A (A2/A3/A4) · Phase B (B-2MIN/B-3MIN/B-4MIN) · Phase C (C60/C90/C120).</p>'+
+      '<p class="lead">What you taste is a reference from <b>this coffee on this machine</b> — not a universal rule.</p>'},
   ]},
-  {session:"Day 2 · Morning", sub:"Taste & refine", slides:[
-    {id:"d2-cup", title:"First, cup what you made yesterday", body:
-      '<p>Your Light, Medium and Dark roasts rested overnight. Taste them side by side.</p>'+
-      '<p>Compare each cup to the Agtron target you aimed for.</p>'+
-      '<p class="lead">That gap between plan and cup is the whole point of today.</p>'},
-    {id:"d2-cross1", title:"Cupping cross · Set 1 — Phase B & C duration", body:'<ul>'+
-      '<li><span class="tag blue">Horizontal · C</span>More development → deeper sweetness, less acidity, more body.</li>'+
-      '<li><span class="tag blue">Vertical · B</span>More Maillard → softer, rounder, more complex acidity.</li>'+
-      '</ul><p>Baseline: A4 · B3 · C90.</p>'},
-    {id:"d2-cross2", title:"Cupping cross · Set 2 — Phase A & charge temp", body:'<ul>'+
-      '<li><span class="tag blue">Horizontal · A</span>Longer drying → fuller body, rounder base. Too short → thin, grassy.</li>'+
-      '<li><span class="tag blue">Vertical · charge</span>Hotter charge → more early aggression; cooler → gentler, safer start.</li>'+
-      '</ul><p>Baseline: A3 · B3 · C80.</p>'},
-    {id:"d2-sweet", title:"Sweetness development", body:'<ul>'+
-      '<li><b>1 · Grainy</b> — underdeveloped, cereal-like.</li>'+
-      '<li><b>2 · Grainy Candy</b> — a little fruity sweetness.</li>'+
-      '<li><b>3 · Candy Minus</b> — fruity, slight raw note.</li>'+
-      '<li><b>4 · Candy</b> — balanced, clean sweetness.</li>'+
-      '<li><b>5 · Candy Plus</b> — brown sugar, caramel.</li>'+
-      '<li><b>6 · Candy Chocolate</b> — chocolate emerging.</li>'+
-      '<li><b>7 · Chocolate</b> — origin fades, roast leads.</li>'+
-      '</ul><p>As development increases, sweetness shifts and origin character fades.</p>'},
-    {id:"d2-level", title:"Roast level vs. cup attributes", body:'<ul>'+
-      '<li><b>Light</b> — acidity &amp; aroma loud; body thin, flavor not yet built.</li>'+
-      '<li><b>Medium</b> — flavor peaks; aroma high, body filling, acidity easing.</li>'+
-      '<li><b>Dark</b> — body sustains, complexity fades; body &amp; bitterness lead.</li>'+
-      '</ul><p>Acidity peaks light · flavor peaks medium · body rises then sustains · aroma peaks early–medium.</p>'},
-    {id:"d2-defects", title:"Roast defects", body:'<ul>'+
-      '<li><b>Underdeveloped</b> — Phase C too short. Grassy, grainy, sour.</li>'+
-      '<li><b>Baked</b> — heat stalled mid-roast. Flat, dull, papery.</li>'+
-      '<li><b>Scorching</b> — charge temp too high. Burnt exterior.</li>'+
-      '<li><b>Tipping / Facing</b> — excessive conduction. Bean ends darkened.</li>'+
-      '<li><b>Overdeveloped</b> — past 2nd crack. Bitter, ashy.</li>'+
-      '<li><b>Quakers</b> — immature beans. A green-coffee defect.</li></ul>'}
+  {session:"Part 3 · Plan", sub:"Modules 7–8", slides:[
+    {id:"m7-color", title:"Module 7 · Roast Color and Measurement", body:'<ul>'+
+      '<li><b>Roast color</b> — one standardized way to record and compare finished roasts.</li>'+
+      '<li><b>Agtron</b> — higher number = lighter roast; lower = darker. Same Agtron does not guarantee the same roast history or taste.</li>'+
+      '<li><b>Weight loss</b> — (green − roasted) ÷ green × 100.</li>'+
+      '</ul><p>Taste the Light / Medium / Dark references and connect measured color with what you perceive.</p>'},
+    {id:"m8-plan", title:"Module 8 · Building a Roast Plan", body:
+      '<p class="lead">A roast plan begins with a target.</p>'+
+      '<p>Define: <b>coffee · cup target · Agtron target · Phase A, B and C targets · control plan</b>.</p>'+
+      '<p>Use what you learned from the coffee, the Cupping Cross, and the reference roasts. A good roast starts with a clear plan — simple enough to fill in before you charge.</p>'}
   ]},
-  {session:"Day 2 · Afternoon", sub:"Roast for taste", slides:[
-    {id:"d2-taste", title:"Roast for taste", body:
-      '<p class="lead">Pick a variable from the cross. Predict the cup. Roast it. Taste it — same day.</p>'+
-      '<p>Use a <b>Day 2 roast</b> in this app: write your prediction first, then compare it to your cupping notes.</p>'}
+  {session:"Part 4 · Roast", sub:"Modules 9–10", slides:[
+    {id:"m9-demo", title:"Module 9 · Instructor Demonstration", body:
+      '<p class="lead">Watch the trainer turn a roast plan into action.</p>'+
+      '<p><b>Read → Decide → Change → Wait → Read.</b></p>'+
+      '<p>Note what they observe, what they change, and what happens next — at Charge, through each phase, and at the Drop.</p>'},
+    {id:"m10-roast", title:"Module 10 · Practical Roasting", body:
+      '<p class="lead">Execute your roast plan as a team.</p>'+
+      '<p>Operate the controls, observe the curve, call the events, track the ABC phases, and record every change — this log is your record of what happened.</p>'+
+      '<p><b>Follow the plan. Respond to the coffee.</b></p>'}
+  ]},
+  {session:"Part 5 · Evaluate & Adjust", sub:"Module 11", slides:[
+    {id:"m11-eval", title:"Module 11 · Final Cupping and Evaluation", body:
+      '<p class="lead">Measure before you taste, then compare the cup with your target.</p><ul>'+
+      '<li><b>Target</b> — what did we want?</li>'+
+      '<li><b>Result</b> — what did we get?</li>'+
+      '<li><b>Compare</b> — what was different?</li>'+
+      '<li><b>Adjust</b> — what is ONE thing you would change next time?</li>'+
+      '</ul><p class="lead"><b>Understand → Taste → Plan → Roast → Evaluate → Adjust.</b> Roasting improves through repeated cycles of planning, observation, measurement, tasting, and adjustment.</p>'}
   ]}
 ];
 
-/* ============ home tab ============ */
-function goTab(name){
-  var btn = document.querySelector('.tab[data-tab="'+name+'"]');
-  if(btn) btn.click();
+/* ============ course player ============ */
+function courseSteps(){
+  var steps = [{kind:"welcome"}];
+  COURSE.forEach(function(sec){ sec.slides.forEach(function(sl){ steps.push({kind:"module", part:sec.session, sub:sec.sub, slide:sl}); }); });
+  steps.push({kind:"done"});
+  return steps;
 }
-function renderHome(){
-  var host = document.getElementById("homeContent");
+var STEPS = courseSteps();
+var ROAST_CTA = {
+  "m8-plan":"Start your roast plan",
+  "m10-roast":"Start your roast",
+  "m11-eval":"Open your roast — cup & evaluate"
+};
+
+function renderCourse(dir){
+  var total = STEPS.length;
+  if(state.progress.step < 0) state.progress.step = 0;
+  if(state.progress.step > total-1) state.progress.step = total-1;
+  var i = state.progress.step, step = STEPS[i];
+  var scroll = document.getElementById("courseScroll");
+  scroll.innerHTML = "";
+
+  document.getElementById("courseProgFill").style.width = Math.round((i/(total-1))*100) + "%";
+  document.getElementById("courseCount").textContent = (i+1) + " / " + total;
+
+  var page = el("div",{class:"cpage"});
+  if(dir) page.classList.add(dir>0 ? "in-next" : "in-prev");
+
+  if(step.kind==="welcome"){
+    page.appendChild(el("div",{class:"c-part",text:"Roasting Fundamentals · Level 1"}));
+    page.appendChild(el("h1",{class:"c-title",html:"Welcome to the <em>class.</em>"}));
+    var hero = el("div",{class:"c-hero"});
+    hero.appendChild(el("p",{style:"color:var(--ink-soft);line-height:1.55;margin-bottom:18px;",text:"We'll move through the course together. When it's time to roast, open your roast log right from the class — and at the end, take the final assessment."}));
+    hero.appendChild(el("div",{class:"big-flow",html:"Understand <b>&rarr;</b> Taste <b>&rarr;</b> Plan<br>Roast <b>&rarr;</b> Evaluate <b>&rarr;</b> Adjust"}));
+    page.appendChild(hero);
+  } else if(step.kind==="done"){
+    page.appendChild(el("div",{class:"c-part",text:"Class complete"}));
+    page.appendChild(el("h1",{class:"c-title",html:"You've finished the <em>class.</em>"}));
+    var d = el("div",{class:"c-hero"});
+    d.appendChild(el("p",{style:"color:var(--ink-soft);line-height:1.55;margin-bottom:22px;",text:"Nice work. When you're ready, take the Final Knowledge Assessment — 15 questions, and you'll see your score right away."}));
+    d.appendChild(el("button",{class:"btn btn-primary btn-block",onclick:function(){ showView("assess"); renderAssess(); }},"📝 Start the assessment"));
+    d.appendChild(el("button",{class:"btn btn-ghost btn-block",style:"margin-top:10px;",onclick:function(){ openRoastList("course"); }},"☕ Review my roast log"));
+    page.appendChild(d);
+  } else {
+    var sl = step.slide;
+    page.appendChild(el("div",{class:"c-part",text:step.part + " · " + step.sub}));
+    page.appendChild(el("h1",{class:"c-title",text:sl.title}));
+    page.appendChild(el("div",{class:"learn-body",html:"<div>"+sl.body+"</div>"}));
+    if(ROAST_CTA[sl.id]){
+      var cta = el("div",{class:"c-roast-cta"});
+      cta.appendChild(el("button",{class:"btn btn-primary btn-block",onclick:openRoastFromCourse}, "☕ " + ROAST_CTA[sl.id]));
+      page.appendChild(cta);
+    }
+    var note = el("div",{class:"c-note"});
+    note.appendChild(el("label",{text:"My notes"}));
+    var ta = el("textarea",{placeholder:"Notes on this module…"});
+    bind(ta, state.course.slideNotes, sl.id);
+    note.appendChild(ta);
+    page.appendChild(note);
+  }
+  scroll.appendChild(page);
+  scroll.scrollTop = 0; window.scrollTo(0,0);
+
+  document.getElementById("coursePrev").disabled = (i===0);
+  var nextBtn = document.getElementById("courseNext");
+  nextBtn.style.display = (step.kind==="done") ? "none" : "";
+  nextBtn.textContent = (STEPS[i+1] && STEPS[i+1].kind==="done") ? "Finish ›" : "Next ›";
+  save();
+}
+
+function courseGo(delta){
+  var ni = state.progress.step + delta;
+  if(ni < 0 || ni > STEPS.length-1) return;
+  state.progress.step = ni;
+  renderCourse(delta);
+}
+
+function openRoastFromCourse(){
+  if(state.roasts.length===0){
+    var r = newRoast("My Level 1 roast");
+    state.roasts.push(r); openRoastId = r.id; save();
+  } else if(!openRoastId){
+    openRoastId = state.roasts[state.roasts.length-1].id;
+  }
+  openRoastList("course");
+}
+
+/* ============ assessment ============ */
+var QUIZ = [
+  {q:"Why do we look at green coffee before roasting?",
+   o:["To know exactly how it should be roasted","To gather information that can help us plan the roast","To determine the final flavor of the coffee","To calculate the roasting time"], a:"B"},
+  {q:"Moisture Content tells us:",
+   o:["How much water is present in the green coffee","How dense the coffee is","How large the coffee beans are","How dark the coffee should be roasted"], a:"A"},
+  {q:"What is heat?",
+   o:["The temperature shown on the roaster","Energy transferred because of a temperature difference","The amount of airflow used during roasting","The color of the roasted coffee"], a:"B"},
+  {q:"Which type of heat transfer happens through direct contact?",
+   o:["Convection","Radiation","Conduction","Airflow"], a:"C"},
+  {q:"Which type of heat transfer happens through moving hot air?",
+   o:["Conduction","Convection","Radiation","Evaporation"], a:"B"},
+  {q:"Which of the following can the roaster operator control?",
+   o:["Airflow","First Crack","Bean Temperature","Color Change"], a:"A"},
+  {q:"What does RoR tell us?",
+   o:["How dark the coffee is","How quickly the temperature reading is changing","How much moisture is in the coffee","How much weight the coffee has lost"], a:"B"},
+  {q:"Phase A begins at Charge and ends at:",
+   o:["Turning Point","Color Change","First Crack","Drop"], a:"B"},
+  {q:"Phase B begins at Color Change and ends at:",
+   o:["Turning Point","Charge","First Crack","Drop"], a:"C"},
+  {q:"Phase C begins at First Crack and ends at:",
+   o:["Color Change","Turning Point","Charge","Drop"], a:"D"},
+  {q:"Why do we use the ABC framework?",
+   o:["To guarantee the same flavor every time","To divide the roast into sections that are easier to plan and understand","To determine the correct Charge Temperature","To replace sensory evaluation"], a:"B"},
+  {q:"Why do we taste the Cupping Cross?",
+   o:["To find the best coffee","To memorize the correct roast profile","To compare how changes in roasting may affect the cup","To practice identifying coffee origins"], a:"C"},
+  {q:"What does Agtron measure?",
+   o:["Roast color","Moisture Content","Bean Temperature","Rate of Rise"], a:"A"},
+  {q:"What should you do before starting a roast?",
+   o:["Copy another roast profile exactly","Choose the longest possible roast time","Create a target and a roast plan","Set every machine control to maximum"], a:"C"},
+  {q:"After roasting and tasting your coffee, what should you do next?",
+   o:["Change several things immediately","Compare the result with your target and decide what to adjust","Use the same roast plan regardless of the result","Judge the roast only by its color"], a:"B"}
+];
+var LETTERS = ["A","B","C","D"];
+var PASS = 12;
+
+function renderAssess(){
+  var host = document.getElementById("assessScroll");
   host.innerHTML = "";
+  var A = state.assessment;
+  if(A.submitted){ renderResult(host); return; }
 
-  var hero = el("div",{class:"home-hero"});
-  hero.appendChild(el("div",{class:"home-brand",html:'Roast <span class="j">Journal</span>'}));
-  hero.appendChild(el("p",{class:"home-tag",text:"Plan a roast, log it live, cup it, and see how close you landed — all on your phone, all offline."}));
-  var cta = el("div",{class:"home-cta"});
-  cta.appendChild(el("button",{class:"btn btn-primary",onclick:function(){ goTab("roasts"); openNew(); }},"☕ Start a roast"));
-  cta.appendChild(el("button",{class:"btn btn-ghost",onclick:function(){ goTab("learn"); }},"📖 Browse the course"));
-  hero.appendChild(cta);
-  host.appendChild(hero);
+  var intro = el("div",{class:"as-intro"});
+  intro.appendChild(el("h1",{class:"c-title",style:"margin-bottom:6px;",html:"Final <em>Assessment.</em>"}));
+  intro.appendChild(el("p",{style:"color:var(--ink-soft);line-height:1.5;",html:"15 questions · pass mark <b>12 / 15</b>. Pick the best answer for each — you'll see your score at the end."}));
+  if(A.best!=null) intro.appendChild(el("p",{style:"color:var(--ink-soft);margin-top:8px;font-size:.85rem;",text:"Your best so far: "+A.best+" / 15."}));
+  host.appendChild(intro);
 
-  AGENDA.forEach(function(d){
-    var card = el("div",{class:"card home-day"});
-    var head = el("div",{class:"home-day-head"});
-    head.appendChild(el("div",{class:"home-day-num",text:d.day}));
-    head.appendChild(el("div",{class:"home-day-title",text:d.title}));
-    card.appendChild(head);
-    d.slots.forEach(function(s){
-      card.appendChild(el("div",{class:"home-slot"},[el("b",{text:s[0]}), el("span",{text:s[1]})]));
+  QUIZ.forEach(function(item, qi){
+    var card = el("div",{class:"as-q"});
+    card.appendChild(el("div",{class:"qn",text:"Question "+(qi+1)+" of 15"}));
+    card.appendChild(el("div",{class:"qt",text:item.q}));
+    item.o.forEach(function(opt, oi){
+      var L = LETTERS[oi];
+      var btn = el("button",{class:"as-opt"+(A.answers[qi]===L?" sel":"")});
+      btn.appendChild(el("span",{class:"lt",text:L}));
+      btn.appendChild(el("span",{text:opt}));
+      btn.addEventListener("click", function(){
+        A.answers[qi] = L; save();
+        Array.prototype.forEach.call(card.querySelectorAll(".as-opt"), function(b){ b.classList.remove("sel"); });
+        btn.classList.add("sel");
+      });
+      card.appendChild(btn);
     });
     host.appendChild(card);
   });
+
+  var submit = el("button",{class:"btn btn-primary btn-block as-submit",text:"Submit answers"});
+  submit.addEventListener("click", function(){
+    var blank = 0; for(var i=0;i<QUIZ.length;i++){ if(!A.answers[i]) blank++; }
+    if(blank>0){
+      confirmDialog("Submit anyway?", blank+" question"+(blank>1?"s are":" is")+" still blank — they'll be marked wrong.", gradeAssessment);
+    } else { gradeAssessment(); }
+  });
+  host.appendChild(submit);
 }
 
-/* ============ learn tab — contents map + swipeable reader ============ */
+function gradeAssessment(){
+  var A = state.assessment, score = 0;
+  for(var i=0;i<QUIZ.length;i++){ if(A.answers[i]===QUIZ[i].a) score++; }
+  A.score = score; A.submitted = true;
+  A.best = (A.best==null) ? score : Math.max(A.best, score);
+  save(); renderAssess(); window.scrollTo(0,0);
+}
 
-/* Flatten the course into a linear page sequence: general notes first, then every slide. */
-function buildPages(){
-  var pages = [{kind:"general", title:"My class notes", eyebrow:"Class notes"}];
-  COURSE.forEach(function(sec){
-    sec.slides.forEach(function(sl){
-      pages.push({kind:"slide", slide:sl, title:sl.title, eyebrow:sec.session+" · "+sec.sub});
+function renderResult(host){
+  var A = state.assessment, pass = A.score >= PASS;
+  var res = el("div",{class:"as-result"});
+  res.appendChild(el("div",{class:"as-score",html: A.score + '<span class="tot"> / 15</span>'}));
+  res.appendChild(el("div",{class:"as-verdict "+(pass?"pass":"fail"), text: pass ? "Passed — well done!" : "Not yet — keep going"}));
+  res.appendChild(el("p",{style:"color:var(--ink-soft);margin-top:14px;line-height:1.5;",
+    text: pass ? "You've met the pass mark of 12 / 15. Review anything you missed below." : "The pass mark is 12 / 15. Review the answers below, then retake when you're ready."}));
+  host.appendChild(res);
+
+  host.appendChild(el("div",{class:"as-review-h",text:"Review"}));
+  QUIZ.forEach(function(item, qi){
+    var mine = A.answers[qi];
+    var card = el("div",{class:"as-q"});
+    card.appendChild(el("div",{class:"qn",text:"Question "+(qi+1)}));
+    card.appendChild(el("div",{class:"qt",text:item.q}));
+    item.o.forEach(function(opt, oi){
+      var L = LETTERS[oi], cls = "as-opt";
+      if(L===item.a) cls += " correct"; else if(L===mine) cls += " wrong";
+      var row = el("div",{class:cls});
+      row.appendChild(el("span",{class:"lt",text:L}));
+      row.appendChild(el("span",{text:opt}));
+      if(L===mine && L!==item.a) row.appendChild(el("span",{style:"margin-left:auto;font-weight:700;color:var(--coral-deep);",text:"your answer"}));
+      if(L===item.a) row.appendChild(el("span",{style:"margin-left:auto;font-weight:700;color:#3f7a54;",text:"✓"}));
+      card.appendChild(row);
+    });
+    host.appendChild(card);
+  });
+
+  var retake = el("button",{class:"btn btn-primary btn-block",style:"margin-top:8px;",text:"Retake assessment"});
+  retake.addEventListener("click", function(){
+    confirmDialog("Retake the assessment?", "Your answers will be cleared (your best score is kept).", function(){
+      state.assessment.answers = {}; state.assessment.submitted = false; state.assessment.score = null;
+      save(); renderAssess(); window.scrollTo(0,0);
     });
   });
-  return pages;
+  host.appendChild(retake);
+  host.appendChild(el("button",{class:"btn btn-ghost btn-block",style:"margin-top:10px;",onclick:function(){ showView("landing"); }},"Back to home"));
 }
-function hasNoteFor(page){
-  if(page.kind==="general") return !!(state.course.general && state.course.general.trim());
-  var v = state.course.slideNotes[page.slide.id];
-  return !!(v && v.trim());
-}
-
-/* ---- contents (the map) ---- */
-function renderLearn(){
-  var host = document.getElementById("learnContent");
-  host.innerHTML = "";
-  host.appendChild(el("p",{class:"learn-intro",text:"The two-day course, slide by slide. Tap any topic to open it — then swipe left/right to move through the class."}));
-
-  var pages = buildPages();
-
-  /* general class notes row */
-  host.appendChild(tocRow(0, "📝 My class notes", hasNoteFor(pages[0])));
-
-  var idx = 1;
-  COURSE.forEach(function(sec){
-    host.appendChild(el("div",{class:"session-head"},[
-      el("span",{class:"sname",text:sec.session}),
-      el("span",{class:"ssub",text:sec.sub})
-    ]));
-    sec.slides.forEach(function(sl){
-      host.appendChild(tocRow(idx, sl.title, hasNoteFor(pages[idx])));
-      idx++;
-    });
-  });
-}
-function tocRow(pageIndex, title, hasNote){
-  return el("div",{class:"toc-row", onclick:(function(i){return function(){ openReader(i); };})(pageIndex)},[
-    el("span",{class:"toc-title",text:title}),
-    hasNote ? el("span",{class:"note-count",text:"●"}) : null,
-    el("span",{class:"toc-go",html:"&#8250;"})
-  ]);
-}
-
-/* ---- reader (focused, swipeable) ---- */
-var PAGES = null;
-var readerIndex = 0;
-function openReader(i){
-  PAGES = buildPages();
-  readerIndex = Math.max(0, Math.min(i, PAGES.length-1));
-  document.getElementById("reader").classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-  renderReader(0);
-}
-function closeReader(){
-  document.getElementById("reader").classList.add("hidden");
-  document.body.style.overflow = "";
-  renderLearn(); // refresh note dots on the map
-}
-function readerGo(delta){
-  var ni = readerIndex + delta;
-  if(ni < 0 || ni >= PAGES.length) return;
-  readerIndex = ni;
-  renderReader(delta);
-}
-function renderReader(dir){
-  var p = PAGES[readerIndex];
-  document.getElementById("readerProg").textContent = (readerIndex+1) + " / " + PAGES.length;
-  var scroll = document.getElementById("readerScroll");
-  scroll.innerHTML = "";
-
-  var page = el("div",{class:"reader-page"});
-  page.appendChild(el("div",{class:"reader-eyebrow",text:p.eyebrow}));
-  page.appendChild(el("div",{class:"reader-title",text:p.title}));
-
-  if(p.kind==="general"){
-    page.appendChild(el("p",{class:"reader-lead",text:"Jot anything for the whole course here — it saves automatically and shows up in your export."}));
-    var gt = el("textarea",{class:"reader-note big",placeholder:"General notes…"});
-    bind(gt, state.course, "general");
-    page.appendChild(gt);
-  }else{
-    page.appendChild(el("div",{class:"learn-body reader-body",html:"<div>"+p.slide.body+"</div>"}));
-    var nl = el("div",{class:"slide-note"});
-    nl.appendChild(el("label",{text:"My notes"}));
-    var ta = el("textarea",{class:"reader-note",placeholder:"Notes on this slide…"});
-    bind(ta, state.course.slideNotes, p.slide.id);
-    nl.appendChild(ta);
-    page.appendChild(nl);
-  }
-  if(dir){ page.classList.add(dir>0 ? "in-next" : "in-prev"); }
-  scroll.appendChild(page);
-  scroll.scrollTop = 0;
-
-  document.getElementById("readerPrev").disabled = (readerIndex===0);
-  document.getElementById("readerNext").disabled = (readerIndex===PAGES.length-1);
-}
-
-/* wire reader controls + swipe + keyboard */
-(function(){
-  document.getElementById("readerBack").addEventListener("click", closeReader);
-  document.getElementById("readerClose").addEventListener("click", closeReader);
-  document.getElementById("readerPrev").addEventListener("click", function(){ readerGo(-1); });
-  document.getElementById("readerNext").addEventListener("click", function(){ readerGo(1); });
-
-  var sc = document.getElementById("readerScroll");
-  var x0=null, y0=null, t0=0;
-  sc.addEventListener("touchstart", function(e){
-    if(e.target.tagName==="TEXTAREA"){ x0=null; return; }
-    var t=e.touches[0]; x0=t.clientX; y0=t.clientY; t0=Date.now();
-  }, {passive:true});
-  sc.addEventListener("touchend", function(e){
-    if(x0==null) return;
-    var t=e.changedTouches[0];
-    var dx=t.clientX-x0, dy=t.clientY-y0;
-    if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.4 && (Date.now()-t0)<650){
-      readerGo(dx<0 ? 1 : -1);
-    }
-    x0=null;
-  }, {passive:true});
-
-  document.addEventListener("keydown", function(e){
-    if(document.getElementById("reader").classList.contains("hidden")) return;
-    if(e.key==="ArrowRight") readerGo(1);
-    else if(e.key==="ArrowLeft") readerGo(-1);
-    else if(e.key==="Escape") closeReader();
-  });
-})();
 
 /* ============ global clock ticker ============ */
 function tickActiveClock(){
@@ -1474,9 +1643,7 @@ setInterval(tickActiveClock, 500);
 document.addEventListener("visibilitychange", function(){ if(!document.hidden) tickActiveClock(); });
 
 /* ============ boot ============ */
-document.getElementById("fab").classList.add("hidden"); // Home is the default tab
-renderHome();
-renderLearn();
+showView("landing");
 renderList();
 </script>
 </body>

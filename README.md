@@ -1,8 +1,9 @@
 # Roast Journal ☕
 
-A single-file, mobile-first web app for coffee roasting students. Plan a roast, log
-milestones live during the roast, record cupping notes, and — on day two — predict a
-taste outcome and compare it to what you actually got.
+A single-file, mobile-first web app for **Good Cup Academy — Roasting Fundamentals Level 1**.
+Plan a roast against a cup target, log milestones live during the roast, measure and cup the
+result on 1–5 intensity scales, then compare Target vs. Result and pick ONE adjustment —
+the course loop: **Understand → Taste → Plan → Roast → Evaluate → Adjust**.
 
 Everything is saved **in your browser** (localStorage). No account, no backend, no data
 leaves the device. Works offline once loaded.
@@ -10,20 +11,21 @@ leaves the device. Works offline once loaded.
 ## What it does
 
 - **Identity** — name + team, saved instantly.
-- **Roasts** — create Day 1 / Day 2 roasts with a label; newest first.
-- **Roast Plan** — charge temp, phase (A/B/C) + total time targets, end temp, Agtron target,
-  each with a one-line note on what it controls.
-- **Live Roast Log** — big tap targets for Charge · TP · DE · First Crack · Drop. Tapping a
-  milestone auto-stamps elapsed time from Charge and lets you enter a temperature. A running
-  clock and live **DTR** (development time ratio = FC→Drop as a % of total) update as you go.
-- **Cupping Notes** — aroma, acidity, sweetness, body, flavor + a 7-segment Jake Hu sweetness
-  scale (Grainy → Chocolate) and free notes.
-- **Predict → Actual** — Day 2 roasts get a prediction field up top and a side-by-side
-  reflection against the cupping notes (no scoring, just reflection).
-- **Home** — the landing tab: brand, a one-line intro, the Day 1 / Day 2 class agenda
-  (AM/PM), and quick buttons to start a roast or browse the course.
-- **Learn** — a scannable contents map of the whole course (Day/session headers with a row
-  per slide, in class order). Tap any topic to open a **focused, swipeable reader**: one
+- **Roasts** — create roasts with a coffee/batch label; newest first.
+- **Roast Plan** — cup target (what do we want in the cup?), charge temp, Phase A/B/C +
+  total time targets, end temp, Agtron target, and a control plan.
+- **Live Roast Log** — big tap targets for Charge · TP · Color Change · First Crack · Drop.
+  Tapping a milestone auto-stamps elapsed time from Charge and lets you enter a temperature.
+  A running clock, total time, Phase C duration, and per-phase durations update as you go.
+- **Measure** — green/roasted weights with a live weight-loss %, plus actual Agtron.
+- **Cup What You Made** — 1–5 intensity scales for acidity, sweetness, bitterness and
+  mouthfeel (matching the Participant Guide), plus finish, flavor character, overall, notes.
+- **Evaluate** — Target vs. Result side by side, what was different, and ONE thing to
+  adjust next time (no scoring, just the course loop).
+- **Home** — the landing tab: brand, a one-line intro, the five-part course agenda
+  (10:00–18:00 with breaks and lunch), and quick buttons to start a roast or browse the course.
+- **Learn** — a scannable contents map of the whole course (the 11 modules in class order,
+  grouped by part). Tap any topic to open a **focused, swipeable reader**: one
   concept per screen, swipe left/right (or Prev/Next), a progress indicator, and the notes
   field in context. There's also a **general class notepad** (page 1 of the reader). Every
   slide/topic that has a note shows a dot on the map. All notes flow into the export/print,
